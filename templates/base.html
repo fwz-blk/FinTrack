@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FinTrack personal finance manager">
+    <title>{% block title %}FinTrack{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <div class="topbar">
+      <h1>{% block page_title %}FinTrack{% endblock %}</h1>
+      <small>{% block page_path %}{% endblock %}</small>
+    </div>
+    <div class="app-shell">
+      {% include "partials/_sidebar.html" %}
+      <main class="workspace">
+        {% include "partials/_toolbar.html" %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+    <div id="modal" class="hidden">{% include "partials/_transaction_modal.html" %}</div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

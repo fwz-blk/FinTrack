@@ -1,0 +1,18 @@
+<aside class="sidebar">
+  <a class="brand" href="{{ url_for('dashboard') }}">
+    <i class="brand-mark">▰</i><span>FinTrack</span>
+  </a>
+  <nav class="nav">
+    {% for id, symbol, label in nav_items %}
+      <a class="{% if active_page == id %}active{% endif %}" href="{{ url_for(id) if id in implemented_pages else '#' }}">
+        <span aria-hidden="true">{{ symbol }}</span><span>{{ label }}</span>
+      </a>
+    {% endfor %}
+  </nav>
+  <nav class="nav nav-bottom">
+    <a class="{% if active_page == 'settings' %}active{% endif %}" href="{{ url_for('settings') }}">
+      <span aria-hidden="true">⚙</span><span>Settings</span>
+    </a>
+    <a href="{{ url_for('landing') }}"><span aria-hidden="true">↪</span><span>Logout</span></a>
+  </nav>
+</aside>

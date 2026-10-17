@@ -1,0 +1,17 @@
+{% extends "public_base.html" %}
+{% block title %}Register — FinTrack{% endblock %}
+{% block content %}
+<main class="auth"><aside class="auth-aside"><div><i class="brand-mark">▰</i><h1>FinTrack</h1><p>Manage money. Reach goals.</p></div></aside>
+  <section class="auth-form"><a href="{{ url_for('landing') }}" class="back">← &nbsp; Back to home</a><h2>Create account</h2><p class="muted">Start tracking your money today</p>
+    <form action="{{ url_for('dashboard') }}" method="get">
+      <div class="field-wrap"><label for="name">Full name</label><input id="name" class="field" placeholder="Your name"></div>
+      <div class="field-wrap"><label for="email">Email</label><input id="email" class="field" type="email" placeholder="you@email.com"></div>
+      <div class="field-wrap"><label for="password">Password</label><input id="password" class="field" type="password" placeholder="••••••••"></div>
+      <div class="field-wrap"><label for="confirm-password">Confirm password</label><input id="confirm-password" class="field" type="password" placeholder="••••••••"></div>
+      <label><input type="checkbox"> I agree to the Terms and Privacy Policy</label>
+      <button class="btn block submit" type="submit">♟ &nbsp; Create Account</button>
+    </form>
+    <p class="center-link"><a href="{{ url_for('login') }}">Already have an account? Login</a></p>
+  </section>
+</main>
+{% endblock %}
