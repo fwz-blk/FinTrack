@@ -1,12 +1,13 @@
 <div class="modal-backdrop" data-modal-backdrop>
-  <form class="modal" method="post" action="#">
+  <form class="modal" method="post" action="{{ url_for('transactions') }}">
     <div class="modal-head"><h3>Add Transaction</h3><button type="button" class="modal-close" data-close-modal>×</button></div>
-    <div class="type-toggle"><button type="button">↓ &nbsp; Income</button><button type="button">↑ &nbsp; Expense</button></div>
-    <div class="field-wrap"><label for="amount">Amount</label><input id="amount" class="field" type="number" placeholder="0.00"></div>
-    <div class="field-wrap"><label for="category">Category</label><select id="category" class="field"><option>Select category</option><option>Food</option><option>Transport</option></select></div>
-    <div class="field-wrap"><label for="account">Account</label><select id="account" class="field"><option>Cash / Bank / Card</option></select></div>
-    <div class="field-wrap"><label for="date">Date</label><input id="date" class="field" type="date" value="2026-10-07"></div>
-    <div class="field-wrap"><label for="note">Note (optional)</label><input id="note" class="field" placeholder="Add a note"></div>
+    <div class="type-toggle"><button type="button" data-transaction-type="income">↓ &nbsp; Income</button><button type="button" class="selected expense" data-transaction-type="expense">↑ &nbsp; Expense</button></div>
+    <input type="hidden" name="transaction_type" value="expense">
+    <div class="field-wrap"><label for="amount">Amount</label><input id="amount" name="amount" class="field" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
+    <div class="field-wrap"><label for="category">Category</label><select id="category" name="category" class="field" required><option value="">Select category</option><option>Food</option><option>Transport</option><option>Rent</option><option>Shopping</option><option>Bills</option><option>Salary</option><option>Freelance</option></select></div>
+    <div class="field-wrap"><label for="account">Account</label><select id="account" name="account" class="field" required><option value="">Select account</option><option>Cash</option><option>Bank</option><option>Card</option></select></div>
+    <div class="field-wrap"><label for="date">Date</label><input id="date" name="date" class="field" type="date" value="2026-10-07" required></div>
+    <div class="field-wrap"><label for="note">Note (optional)</label><input id="note" name="note" class="field" placeholder="Add a note"></div>
     <div class="modal-actions"><button type="button" class="btn outline" data-close-modal>Cancel</button><button type="submit" class="btn">✓ &nbsp; Save</button></div>
   </form>
 </div>

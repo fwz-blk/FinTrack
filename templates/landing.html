@@ -4,11 +4,11 @@
 <main class="landing">
   <header class="landing-nav">
     <div class="brand"><i class="brand-mark">▰</i><span>FinTrack</span></div>
-    <nav><a href="{{ url_for('landing') }}">Home</a><a href="#features">Features</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
-    <div><a class="btn outline" href="{{ url_for('login') }}">↪ &nbsp;Login</a> <a class="btn" href="{{ url_for('register') }}">♟ &nbsp;Sign Up</a></div>
+    <nav><a href="{{ url_for('landing') }}">Home</a><a href="{{ url_for('features') }}">Features</a><a href="{{ url_for('about') }}">About</a></nav>
+    <div><a class="btn outline" href="{{ url_for('login') }}">↪ &nbsp;Login</a> <a class="btn" href="{{ url_for('register') }}">Sign Up</a></div>
   </header>
-  <section class="hero" id="about">
-    <div><h1>Take control of<br><span>your money.</span></h1><p>Organize your finances, track spending, and reach your goals with confidence.</p><div class="hero-actions"><a class="btn" href="{{ url_for('register') }}">Get Started &nbsp; →</a><a class="btn outline" href="#features">Learn More</a></div></div>
+  <section class="hero">
+    <div><h1>Take control of<br><span>your money.</span></h1><p>Organize your finances, track spending, and reach your goals with confidence.</p><div class="hero-actions"><a class="btn" href="{{ url_for('register') }}">Get Started &nbsp; →</a><a class="btn outline" href="{{ url_for('features') }}">Learn More</a></div></div>
     <div class="mock-chart"><i style="height:30%"></i><i style="height:60%"></i><i style="height:40%"></i><i style="height:78%"></i><i style="height:52%"></i><i style="height:90%"></i></div>
   </section>
   <section class="features" id="features"><h2>Why FinTrack?</h2><div class="cards four">
@@ -16,6 +16,6 @@
       <article class="card feature-card"><i class="brand-mark">{{ symbol }}</i><b>{{ title }}</b><p class="muted">Everything you need to build better money habits.</p></article>
     {% endfor %}
   </div></section>
-  <footer id="contact"><b>▰ &nbsp; FinTrack</b><small>Privacy &nbsp;&nbsp; Terms &nbsp;&nbsp; Help<br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
+  <footer><b>▰ &nbsp; FinTrack</b><small>Privacy &nbsp;&nbsp; Terms &nbsp;&nbsp; Help<br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
 </main>
 {% endblock %}

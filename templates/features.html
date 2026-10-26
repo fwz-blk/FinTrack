@@ -1,0 +1,64 @@
+{% extends "public_base.html" %}
+{% block title %}Features — FinTrack{% endblock %}
+{% block content %}
+<main class="landing features-page">
+  <header class="landing-nav">
+    <a class="brand" href="{{ url_for('landing') }}"><i class="brand-mark">▰</i><span>FinTrack</span></a>
+    <nav>
+      <a href="{{ url_for('landing') }}">Home</a>
+      <a class="active" href="{{ url_for('features') }}">Features</a>
+      <a href="{{ url_for('about') }}">About</a>
+    </nav>
+    <div><a class="btn outline" href="{{ url_for('login') }}">↪ &nbsp;Login</a> <a class="btn" href="{{ url_for('register') }}">Sign Up</a></div>
+  </header>
+
+  <section class="features-hero">
+    <div>
+      <span class="eyebrow">Everything in one place</span>
+      <h1>Tools to make your<br><span>money work smarter.</span></h1>
+      <p>FinTrack gives you a clear view of your finances, helping you build better habits and make confident decisions every day.</p>
+      <a class="btn" href="{{ url_for('register') }}">Get Started &nbsp; →</a>
+    </div>
+    <div class="features-summary card">
+      <div class="summary-icon brand-mark">▰</div>
+      <strong>Take control of your finances</strong>
+      <p class="muted">Track your progress with simple, focused tools designed around your goals.</p>
+      <div class="summary-stats">
+        <span><b>4</b><small>Core tools</small></span>
+        <span><b>100%</b><small>In control</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-detail">
+    <div class="features-heading">
+      <span class="eyebrow">Built for better habits</span>
+      <h2>Everything you need to stay on track</h2>
+      <p class="muted">From everyday spending to long-term plans, FinTrack keeps your financial life organized.</p>
+    </div>
+    <div class="feature-grid">
+      {% for title, symbol, description in [
+        ("Track Expenses", "▰", "Record income and expenses in seconds and always know where your money is going."),
+        ("Set Budgets", "◔", "Create category budgets, monitor progress, and get alerted before you go over limit."),
+        ("Reach Goals", "◎", "Set savings targets, follow your progress, and turn your plans into achievable milestones."),
+        ("Stay Secure", "♢", "Keep your financial overview simple and private with everything organized in one place.")
+      ] %}
+        <article class="card feature-detail-card">
+          <i class="brand-mark">{{ symbol }}</i>
+          <h3>{{ title }}</h3>
+          <p class="muted">{{ description }}</p>
+          <span class="feature-arrow">→</span>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="features-cta">
+    <h2>Ready to take control?</h2>
+    <p>Start building better money habits today.</p>
+    <a class="btn" href="{{ url_for('register') }}">Create your account &nbsp; →</a>
+  </section>
+
+  <footer><b>▰ &nbsp; FinTrack</b><small>Privacy &nbsp;&nbsp; Terms &nbsp;&nbsp; Help<br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
+</main>
+{% endblock %}

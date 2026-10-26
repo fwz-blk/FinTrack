@@ -3,13 +3,14 @@
 {% block content %}
 <main class="auth"><aside class="auth-aside"><div><i class="brand-mark">▰</i><h1>FinTrack</h1><p>Manage money. Reach goals.</p></div></aside>
   <section class="auth-form"><a href="{{ url_for('landing') }}" class="back">← &nbsp; Back to home</a><h2>Welcome back</h2><p class="muted">Login to manage your finances</p>
-    <form action="{{ url_for('dashboard') }}" method="get">
-      <div class="field-wrap"><label for="email">Email</label><input id="email" class="field" type="email" placeholder="you@email.com"></div>
-      <div class="field-wrap"><label for="password">Password</label><input id="password" class="field" type="password" placeholder="••••••••"></div>
+    {% with messages = get_flashed_messages() %}{% if messages %}<p class="form-message">{{ messages[0] }}</p>{% endif %}{% endwith %}
+    <form action="{{ url_for('login') }}" method="post">
+      <div class="field-wrap"><label for="email">Email</label><input id="email" name="email" class="field" type="email" placeholder="you@email.com" required></div>
+      <div class="field-wrap"><label for="password">Password</label><input id="password" name="password" class="field" type="password" placeholder="••••••••" required></div>
       <div class="split"><label><input type="checkbox"> Remember me</label><a href="#" class="center-link">Forgot password?</a></div>
       <button class="btn block submit" type="submit">↪ &nbsp; Login</button>
     </form>
-    <p class="center-link"><a href="{{ url_for('register') }}">♟ &nbsp; Create an account</a></p>
+    <p class="center-link"><a href="{{ url_for('register') }}">Create an account</a></p>
   </section>
 </main>
 {% endblock %}

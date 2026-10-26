@@ -1,0 +1,45 @@
+{% extends "public_base.html" %}
+{% block title %}About — FinTrack{% endblock %}
+{% block content %}
+<main class="landing about-page">
+  <header class="landing-nav">
+    <a class="brand" href="{{ url_for('landing') }}"><i class="brand-mark">▰</i><span>FinTrack</span></a>
+    <nav>
+      <a href="{{ url_for('landing') }}">Home</a>
+      <a href="{{ url_for('features') }}">Features</a>
+      <a class="active" href="{{ url_for('about') }}">About</a>
+    </nav>
+    <div><a class="btn outline" href="{{ url_for('login') }}">↪ &nbsp;Login</a> <a class="btn" href="{{ url_for('register') }}">Sign Up</a></div>
+  </header>
+
+  <section class="about-hero">
+    <div>
+      <span class="eyebrow">About FinTrack</span>
+      <h1>Manage money.<br><span>Reach goals.</span></h1>
+      <p>FinTrack is a simple personal finance manager for tracking income and expenses, planning budgets, and building savings goals in one place.</p>
+      <a class="btn" href="{{ url_for('register') }}">Get Started &nbsp; →</a>
+    </div>
+  </section>
+
+  <section class="about-content">
+    <div class="about-heading">
+      <span class="eyebrow">What FinTrack does</span>
+      <h2>A clear overview of your financial life</h2>
+      <p class="muted">The app brings your everyday finances together so you can understand your habits and make better decisions.</p>
+    </div>
+    <div class="about-points">
+      <div><h3>Track your transactions</h3><p class="muted">Record income and expenses, organize them by category or account, and review your recent activity.</p></div>
+      <div><h3>Plan your spending</h3><p class="muted">Set budgets for important categories and see when you are approaching or exceeding your limits.</p></div>
+      <div><h3>Work toward goals</h3><p class="muted">Create savings targets, monitor your progress, and stay motivated as you move closer to each goal.</p></div>
+    </div>
+  </section>
+
+  <section class="about-cta">
+    <h2>Start your journey with FinTrack</h2>
+    <p>Build better money habits one step at a time.</p>
+    <a class="btn" href="{{ url_for('register') }}">Create your account &nbsp; →</a>
+  </section>
+
+  <footer><b>▰ &nbsp; FinTrack</b><small>Privacy &nbsp;&nbsp; Terms &nbsp;&nbsp; Help<br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
+</main>
+{% endblock %}
