@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>FinTrack Report</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<body onload="window.print()">
+<main class="content">
+  <h1>FinTrack Report</h1>
+  <p>{{ filter_label }}: {{ start_value }} to {{ end_value }}</p>
+  <h2>Summary</h2><p>Income: ${{ '%.2f'|format(income) }} · Expenses: ${{ '%.2f'|format(expenses) }} · Savings: ${{ '%.2f'|format(income - expenses) }}</p>
+  <h2>Category breakdown</h2>{% for name, amount in category %}<p>{{ name }}: ${{ '%.2f'|format(amount) }}</p>{% endfor %}
+  <h2>Account breakdown</h2>{% for name, amount in account %}<p>{{ name }}: ${{ '%.2f'|format(amount) }}</p>{% endfor %}
+  <h2>Monthly comparison</h2>{% for row in monthly %}<p>{{ row.month }} — Income: ${{ '%.2f'|format(row.income) }}, Expenses: ${{ '%.2f'|format(row.expenses) }}, Savings: ${{ '%.2f'|format(row.savings) }}</p>{% endfor %}
+  <h2>Budget performance</h2>{% for row in budget_performance %}<p>{{ row.name }}: ${{ '%.2f'|format(row.spent) }} / ${{ '%.2f'|format(row.limit) }} ({{ row.percent }}%)</p>{% endfor %}
+</main>
+</body>
+</html>

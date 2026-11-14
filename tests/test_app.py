@@ -253,3 +253,49 @@ def test_dashboard_uses_real_period_data_and_empty_states(client, app):
     assert response.status_code == 200
     assert b"No transactions in this period" in response.data
     assert b"No expense data for this period" in response.data
+
+
+def test_reports_are_filtered_exportable_printable_and_user_scoped(client, app):
+    register_user(client, email="reports@example.com")
+    client.post(
+        "/transactions",
+        data={
+            "transaction_type": "income",
+            "amount": "500",
+            "category": "Salary",
+            "account": "Bank",
+            "date": "2026-11-14",
+        },
+    )
+    client.post(
+        "/transactions",
+        data={
+            "transaction_type": "expense",
+            "amount": "125",
+            "category": "Food",
+            "account": "Card",
+            "date": "2026-11-14",
+        },
+    )
+    response = client.get("/reports?filter=current_month")
+    assert response.status_code == 200
+    assert b"Food" in response.data
+    assert b"Salary" not in response.data
+    assert b"Income $500.00" in response.data
+    response = client.get("/reports/export.csv?filter=current_month")
+    assert response.status_code == 200
+    assert response.mimetype == "text/csv"
+    assert b"Food,125.00" in response.data
+    response = client.get("/reports/export.pdf?filter=current_month")
+    assert response.status_code == 200
+    assert response.mimetype == "application/pdf"
+    assert response.data.startswith(b"%PDF")
+    response = client.get("/reports/print?filter=current_month")
+    assert response.status_code == 200
+    assert b"FinTrack Report" in response.data
+    client.get("/logout")
+    register_user(client, name="Other User", email="other-reports@example.com")
+    response = client.get("/reports?filter=current_month")
+    assert response.status_code == 200
+    assert b"Food" not in response.data
+    assert b"Salary" not in response.data
