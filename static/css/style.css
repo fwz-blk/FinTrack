@@ -533,3 +533,8 @@ a:hover { color: var(--teal-dark); }
 @media (max-width: 560px) {
   .report-filters { grid-template-columns: 1fr; }
 }
+@media (max-width: 800px) {
+  .page-head { flex-direction: column; }
+  .page-head > form { width: 100%; justify-content: flex-start; }
+  .hero { min-height: auto; }
+}
