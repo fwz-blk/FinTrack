@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: FinTrack API
+  version: 1.0.0
+  description: Session-authenticated API for the FinTrack application.
+servers:
+  - url: /
+paths:
+  /api/v1/transactions:
+    get:
+      summary: List the logged-in user's transactions
+      responses:
+        "200": {description: Transaction list}
+    post:
+      summary: Create a transaction
+      responses:
+        "201": {description: Created}
+        "422": {description: Validation error}
+  /api/v1/dashboard:
+    get:
+      summary: Get dashboard aggregates for the logged-in user
+      responses:
+        "200": {description: Dashboard data}
+  /api/v1/reports:
+    get:
+      summary: Get filtered report data
+      responses:
+        "200": {description: Report data}

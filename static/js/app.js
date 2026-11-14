@@ -12,6 +12,21 @@
 
   applyDarkMode(localStorage.getItem(darkModeKey) === "true");
 
+  const dashboard = document.querySelector("[data-api-dashboard]");
+  if (dashboard) {
+    const params = new URLSearchParams(window.location.search);
+    fetch(`/api/v1/dashboard?${params.toString()}`, { headers: { Accept: "application/json" } })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (!payload || !payload.data || !payload.data.totals) return;
+        Object.entries(payload.data.totals).forEach(([key, value]) => {
+          const target = dashboard.querySelector(`[data-dashboard-metric="${key}"]`);
+          if (target) target.textContent = value;
+        });
+      })
+      .catch((error) => console.error("Dashboard API request failed", error));
+  }
+
   function closeModal() {
     if (modal) modal.classList.add("hidden");
   }

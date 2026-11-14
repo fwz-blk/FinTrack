@@ -1,0 +1,14 @@
+{% extends "public_base.html" %}
+{% block title %}API documentation — FinTrack{% endblock %}
+{% block content %}<main class="about-content"><a href="{{ url_for('landing') }}" class="back">← Back to home</a><h1>FinTrack API v1</h1><p class="about-heading">Authenticated JSON endpoints for the application. Requests use the logged-in Flask session and write requests require the CSRF token header.</p><pre class="card">GET/POST   /api/v1/transactions
+GET/PUT/DELETE /api/v1/transactions/&lt;id&gt;
+GET/POST   /api/v1/budgets
+PUT/DELETE /api/v1/budgets/&lt;id&gt;
+GET/POST   /api/v1/goals
+PUT/DELETE /api/v1/goals/&lt;id&gt;
+POST       /api/v1/goals/&lt;id&gt;/contributions
+GET/POST   /api/v1/bills
+PUT/DELETE /api/v1/bills/&lt;id&gt;
+GET        /api/v1/dashboard
+GET        /api/v1/reports
+GET/PATCH  /api/v1/settings</pre><p><a class="btn" href="{{ url_for('landing') }}">Back to FinTrack</a></p></main>{% endblock %}

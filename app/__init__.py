@@ -42,6 +42,7 @@ def create_app(test_config=None):
     register_commands(app)
 
     from .auth.routes import register as register_auth
+    from .api import register as register_api
     from .budgets.routes import register as register_budgets
     from .dashboard.routes import register as register_dashboard
     from .goals.routes import register as register_goals
@@ -52,6 +53,7 @@ def create_app(test_config=None):
 
     register_public(app)
     register_auth(app)
+    register_api(app)
     register_dashboard(app)
     register_transactions(app)
     register_budgets(app)

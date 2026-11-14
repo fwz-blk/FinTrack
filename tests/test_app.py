@@ -396,3 +396,32 @@ def test_bills_persist_show_overdue_and_generate_recurring_transactions(client, 
         assert bill.paid is True
         assert Transaction.query.filter_by(bill_id=bill.id).count() == 1
         assert bill.due_date > date.today()
+
+
+def test_v1_api_is_json_authenticated_and_user_scoped(client, app):
+    register_user(client, email="api-one@example.com")
+    response = client.post(
+        "/api/v1/transactions",
+        json={
+            "type": "expense",
+            "amount": "12.50",
+            "category": "Food",
+            "account": "Card",
+            "date": "2026-11-14",
+        },
+    )
+    assert response.status_code == 201
+    assert response.json["data"]["amount"] == "12.50"
+    response = client.get("/api/v1/dashboard")
+    assert response.status_code == 200
+    assert response.json["errors"] == {}
+    client.get("/logout")
+    register_user(client, email="api-two@example.com")
+    response = client.get("/api/v1/transactions")
+    assert response.status_code == 200
+    assert response.json["data"] == []
+    response = client.get("/api/v1/transactions/1")
+    assert response.status_code == 404
+    client.get("/logout")
+    response = client.get("/api/v1/transactions")
+    assert response.status_code == 401
