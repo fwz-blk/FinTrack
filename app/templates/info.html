@@ -1,0 +1,3 @@
+{% extends "public_base.html" %}
+{% block title %}{{ page_title }} — FinTrack{% endblock %}
+{% block content %}<main class="about-content"><a href="{{ url_for('landing') }}" class="back">← Back to home</a><h1>{{ heading }}</h1><p class="about-heading">{{ body }}</p><p><a class="btn" href="{{ url_for('register') }}">Get started</a></p></main>{% endblock %}

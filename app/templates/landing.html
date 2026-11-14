@@ -16,6 +16,6 @@
       <article class="card feature-card"><i class="brand-mark">{{ symbol }}</i><b>{{ title }}</b><p class="muted">Everything you need to build better money habits.</p></article>
     {% endfor %}
   </div></section>
-  <footer><b>▰ &nbsp; FinTrack</b><small>Privacy &nbsp;&nbsp; Terms &nbsp;&nbsp; Help<br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
+  <footer><b>▰ &nbsp; FinTrack</b><small><a href="{{ url_for('privacy') }}">Privacy</a> &nbsp;&nbsp; <a href="{{ url_for('terms') }}">Terms</a> &nbsp;&nbsp; <a href="{{ url_for('help_page') }}">Help</a><br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
 </main>
 {% endblock %}

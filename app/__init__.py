@@ -83,6 +83,7 @@ def create_app(test_config=None):
                 "goals",
                 "reports",
                 "settings",
+                "bills",
             },
             "nav_items": [
                 ("dashboard", "◉", "Dashboard"),

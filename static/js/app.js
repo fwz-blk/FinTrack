@@ -21,6 +21,22 @@
   }
 
   document.addEventListener("click", (event) => {
+    const menuToggle = event.target.closest("[data-menu-toggle]");
+    if (menuToggle) {
+      const sidebar = document.getElementById("app-sidebar");
+      const open = sidebar && sidebar.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(Boolean(open)));
+    }
+    const notificationsToggle = event.target.closest("[data-notifications-toggle]");
+    const profileToggle = event.target.closest("[data-profile-toggle]");
+    if (notificationsToggle || profileToggle) {
+      const target = document.getElementById(notificationsToggle ? "notifications-menu" : "profile-menu");
+      target.classList.toggle("hidden");
+      (notificationsToggle || profileToggle).setAttribute("aria-expanded", String(!target.classList.contains("hidden")));
+    }
+    if (!event.target.closest(".menu-wrap")) {
+      document.querySelectorAll(".popover").forEach((item) => item.classList.add("hidden"));
+    }
     if (event.target.closest("[data-open-modal]")) openModal();
     if (event.target.closest("[data-close-modal]")) closeModal();
     if (event.target.matches("[data-modal-backdrop]")) closeModal();
@@ -39,6 +55,7 @@
       applyDarkMode(enabled);
       localStorage.setItem(darkModeKey, String(enabled));
     }
+    if (event.target.matches("[data-loading]")) return;
     const transactionType = event.target.closest("[data-transaction-type]");
     if (transactionType) {
       const typeInput = document.querySelector("[name='transaction_type']");
@@ -51,5 +68,31 @@
         button.classList.toggle("expense", isSelected && selectedType === "expense");
       });
     }
+  });
+
+  document.querySelectorAll("form").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      let valid = true;
+      form.querySelectorAll("[required]").forEach((field) => {
+        const error = field.parentElement.querySelector(".field-error");
+        if (!field.value && field.type !== "checkbox") {
+          valid = false;
+          field.setAttribute("aria-invalid", "true");
+          if (error) error.textContent = "This field is required.";
+        } else {
+          field.removeAttribute("aria-invalid");
+          if (error) error.textContent = "";
+        }
+      });
+      if (!valid) event.preventDefault();
+      else {
+        const submit = form.querySelector("button[type='submit']");
+        if (submit) {
+          submit.disabled = true;
+          submit.dataset.originalText = submit.textContent;
+          submit.textContent = "Saving…";
+        }
+      }
+    });
   });
 })();

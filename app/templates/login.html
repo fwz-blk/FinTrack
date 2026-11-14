@@ -5,9 +5,9 @@
   <section class="auth-form"><a href="{{ url_for('landing') }}" class="back">← &nbsp; Back to home</a><h2>Welcome back</h2><p class="muted">Login to manage your finances</p>
     {% with messages = get_flashed_messages() %}{% if messages %}<p class="form-message">{{ messages[0] }}</p>{% endif %}{% endwith %}
     <form action="{{ url_for('login') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-      <div class="field-wrap"><label for="email">Email</label><input id="email" name="email" class="field" type="email" placeholder="you@email.com" required></div>
-      <div class="field-wrap"><label for="password">Password</label><input id="password" name="password" class="field" type="password" placeholder="••••••••" required></div>
-      <div class="split"><label><input type="checkbox"> Remember me</label><a href="#" class="center-link">Forgot password?</a></div>
+      <div class="field-wrap"><label for="email">Email</label><input id="email" name="email" class="field" type="email" placeholder="you@email.com" required><small class="field-error"></small></div>
+      <div class="field-wrap"><label for="password">Password</label><input id="password" name="password" class="field" type="password" placeholder="••••••••" required><small class="field-error"></small></div>
+      <div class="split"><label><input type="checkbox" name="remember"> Remember me</label><a href="{{ url_for('forgot_password') }}" class="center-link">Forgot password?</a></div>
       <button class="btn block submit" type="submit">↪ &nbsp; Login</button>
     </form>
     <p class="center-link"><a href="{{ url_for('register') }}">Create an account</a></p>

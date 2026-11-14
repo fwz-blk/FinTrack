@@ -16,6 +16,7 @@
       {% include "partials/_sidebar.html" %}
       <main class="workspace">
         {% include "partials/_toolbar.html" %}
+        {% with messages = get_flashed_messages() %}{% if messages %}<div class="flash-stack" role="status" aria-live="polite">{% for message in messages %}<p class="form-message">{{ message }}</p>{% endfor %}</div>{% endif %}{% endwith %}
         {% block content %}{% endblock %}
       </main>
     </div>

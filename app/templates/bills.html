@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% set active_page = "bills" %}
+{% block title %}Bills — FinTrack{% endblock %}{% block page_title %}Bills{% endblock %}{% block page_path %}/bills{% endblock %}
+{% block content %}<section class="content"><div class="page-head"><div><h2>Bills</h2><p>Keep upcoming payments visible.</p></div></div><article class="card"><h3>No bills yet</h3><p class="muted">Bills are not tracked separately yet. Add recurring transactions to keep regular payments in your transaction history.</p><a class="btn" href="{{ url_for('transactions') }}">View transactions</a></article></section>{% endblock %}

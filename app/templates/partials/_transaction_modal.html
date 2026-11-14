@@ -3,7 +3,7 @@
     <div class="modal-head"><h3>Add Transaction</h3><button type="button" class="modal-close" data-close-modal>×</button></div>
     <div class="type-toggle"><button type="button" data-transaction-type="income">↓ &nbsp; Income</button><button type="button" class="selected expense" data-transaction-type="expense">↑ &nbsp; Expense</button></div>
     <input type="hidden" name="transaction_type" value="expense">
-    <div class="field-wrap"><label for="amount">Amount</label><input id="amount" name="amount" class="field" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
+    <div class="field-wrap"><label for="amount">Amount</label><input id="amount" name="amount" class="field" type="number" min="0.01" step="0.01" placeholder="0.00" required><small class="field-error"></small></div>
     <div class="field-wrap"><label for="category">Category</label><select id="category" name="category" class="field" required><option value="">Select category</option>{% for category in categories %}<option>{{ category }}</option>{% endfor %}</select></div>
     <div class="field-wrap"><label for="account">Account</label><select id="account" name="account" class="field" required><option value="">Select account</option>{% for account in accounts %}<option>{{ account }}</option>{% endfor %}</select></div>
     <div class="field-wrap"><label for="date">Date</label><input id="date" name="date" class="field" type="date" value="{{ today.isoformat() }}" required></div>
