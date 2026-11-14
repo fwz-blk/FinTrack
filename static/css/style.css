@@ -291,6 +291,14 @@ a:hover { color: var(--teal-dark); }
   box-shadow: 0 6px 16px rgb(24 39 104 / 18%);
 }
 .nav { gap: 6px; }
+.nav-section-label {
+  padding: 0 14px 8px;
+  color: #b8c8f4;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
 .nav a {
   min-height: 46px;
   padding: 12px 14px;
@@ -326,6 +334,7 @@ a:hover { color: var(--teal-dark); }
   padding: 18px 2px 0;
   border-top: 1px solid rgb(255 255 255 / 16%);
 }
+.nav-bottom .nav-section-label { padding-left: 14px; }
 .nav-bottom a { min-height: 42px; }
 .nav-bottom a:last-child { color: #ffb1ba; }
 .nav-bottom a:last-child .nav-icon { color: #ff9aa7; }
@@ -364,6 +373,7 @@ a:hover { color: var(--teal-dark); }
   background: rgb(255 255 255 / 92%);
   border-color: var(--line);
   backdrop-filter: blur(16px);
+  box-shadow: 0 8px 24px rgb(61 82 160 / 8%);
 }
 .landing-nav .brand {
   color: var(--navy);
@@ -379,6 +389,14 @@ a:hover { color: var(--teal-dark); }
 .landing-nav nav a, .landing-nav nav a:first-child { color: var(--navy); }
 .landing-nav nav a:hover, .landing-nav nav a.active { color: var(--blue); }
 .hero, .features-hero, .about-hero { background: transparent; }
+.hero { min-height: 430px; padding-top: 72px; padding-bottom: 72px; }
+.hero h1 { font-weight: 700; letter-spacing: -.035em; }
+.hero p { max-width: 600px; font-size: 16px; }
+.hero-actions .btn { min-height: 46px; display: inline-flex; align-items: center; }
+.features h2 { font-size: 30px; letter-spacing: -.03em; }
+.feature-card { padding: 24px; }
+.feature-card b { display: block; font-size: 16px; margin-bottom: 8px; }
+.feature-card p { margin: 0; line-height: 1.55; }
 .hero h1 span, .features-hero h1 span, .about-hero h1 span { color: var(--navy); }
 .mock-chart, .features-summary { background: #fff; border-color: var(--line); box-shadow: var(--shadow); }
 .landing footer { color: #fff; background: var(--navy); }
@@ -406,9 +424,11 @@ a:hover { color: var(--teal-dark); }
   .sidebar { width: 64px; flex-basis: 64px; padding: 15px 7px; }
   .brand { padding: 0 8px 26px; }
   .brand span, .nav a span { display: none; }
+  .nav-section-label { display: none; }
   .nav a { justify-content: center; padding: 13px 5px; }
   .sidebar.open { position: fixed; inset: 60px auto 0 0; z-index: 30; width: 220px; flex-basis: 220px; }
   .sidebar.open .brand span, .sidebar.open .nav a span { display: inline; }
+  .sidebar.open .nav-section-label { display: block; }
   .sidebar.open .nav a { justify-content: flex-start; padding: 12px 10px; }
   .toolbar { gap: 12px; padding: 0 16px; }
   .toolbar .search { width: min(240px, 30vw); }

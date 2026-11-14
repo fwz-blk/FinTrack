@@ -3,6 +3,7 @@
     <i class="brand-mark">▰</i><span>FinTrack</span>
   </a>
   <nav class="nav">
+    <span class="nav-section-label">Workspace</span>
     {% for id, symbol, label in nav_items %}
       <a class="{% if active_page == id %}active{% endif %}" href="{{ url_for(id) }}" {% if active_page == id %}aria-current="page"{% endif %}>
         <span class="nav-icon" aria-hidden="true">{{ symbol }}</span><span>{{ label }}</span>
@@ -10,6 +11,7 @@
     {% endfor %}
   </nav>
   <nav class="nav nav-bottom">
+    <span class="nav-section-label">Account</span>
     <a class="{% if active_page == 'settings' %}active{% endif %}" href="{{ url_for('settings') }}" {% if active_page == "settings" %}aria-current="page"{% endif %}>
       <span class="nav-icon" aria-hidden="true">⚙</span><span>Settings</span>
     </a>
