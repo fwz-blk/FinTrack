@@ -336,3 +336,18 @@ a:hover { color: var(--teal-dark); }
   .page-head { align-items: flex-start; gap: 16px; }
   .page-head > form { flex-wrap: wrap; }
 }
+
+/* Keep account actions available while long pages scroll. */
+.sidebar {
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  align-self: flex-start;
+  overflow-y: auto;
+}
+.sidebar.open {
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  height: auto;
+}
