@@ -4,15 +4,15 @@
   </a>
   <nav class="nav">
     {% for id, symbol, label in nav_items %}
-      <a class="{% if active_page == id %}active{% endif %}" href="{{ url_for(id) }}">
-        <span aria-hidden="true">{{ symbol }}</span><span>{{ label }}</span>
+      <a class="{% if active_page == id %}active{% endif %}" href="{{ url_for(id) }}" {% if active_page == id %}aria-current="page"{% endif %}>
+        <span class="nav-icon" aria-hidden="true">{{ symbol }}</span><span>{{ label }}</span>
       </a>
     {% endfor %}
   </nav>
   <nav class="nav nav-bottom">
-    <a class="{% if active_page == 'settings' %}active{% endif %}" href="{{ url_for('settings') }}">
-      <span aria-hidden="true">⚙</span><span>Settings</span>
+    <a class="{% if active_page == 'settings' %}active{% endif %}" href="{{ url_for('settings') }}" {% if active_page == "settings" %}aria-current="page"{% endif %}>
+      <span class="nav-icon" aria-hidden="true">⚙</span><span>Settings</span>
     </a>
-    <a href="{{ url_for('logout') }}"><span aria-hidden="true">↪</span><span>Logout</span></a>
+    <a href="{{ url_for('logout') }}"><span class="nav-icon" aria-hidden="true">↪</span><span>Logout</span></a>
   </nav>
 </aside>
