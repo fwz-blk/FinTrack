@@ -36,6 +36,7 @@ class User(db.Model):
     accounts = db.relationship(
         "Account", back_populates="user", cascade="all, delete-orphan"
     )
+    bills = db.relationship("Bill", back_populates="user", cascade="all, delete-orphan")
 
 
 class Transaction(db.Model):
@@ -51,8 +52,10 @@ class Transaction(db.Model):
     note = db.Column(db.String(255))
     recurring = db.Column(db.Boolean, nullable=False, default=False)
     attachment_filename = db.Column(db.String(255))
+    bill_id = db.Column(db.Integer, db.ForeignKey("bills.id"))
 
     user = db.relationship("User", back_populates="transactions")
+    bill = db.relationship("Bill", back_populates="transactions")
 
     @property
     def type(self):
@@ -92,6 +95,24 @@ class Account(db.Model):
     name = db.Column(db.String(80), nullable=False)
 
     user = db.relationship("User", back_populates="accounts")
+
+
+class Bill(db.Model):
+    __tablename__ = "bills"
+    __table_args__ = (db.UniqueConstraint("user_id", "name"),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    amount = db.Column(db.Numeric(10, 2), nullable=False)
+    due_date = db.Column(db.Date, nullable=False)
+    recurrence = db.Column(db.String(20), nullable=False, default="monthly")
+    category = db.Column(db.String(80), nullable=False)
+    account = db.Column(db.String(80), nullable=False)
+    paid = db.Column(db.Boolean, nullable=False, default=False)
+
+    user = db.relationship("User", back_populates="bills")
+    transactions = db.relationship("Transaction", back_populates="bill")
 
 
 class Budget(db.Model):

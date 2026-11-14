@@ -1,7 +1,8 @@
 import io
+from datetime import date, timedelta
 
 from app.extensions import db
-from app.models import Budget, Goal, GoalContribution, Transaction, User
+from app.models import Bill, Budget, Goal, GoalContribution, Transaction, User
 
 
 def register_user(client, name="Test User", email="test@example.com"):
@@ -367,3 +368,31 @@ def test_settings_can_permanently_delete_account(client, app):
     with app.app_context():
         assert db.session.get(User, user_id) is None
     assert client.get("/settings").status_code == 302
+
+
+def test_bills_persist_show_overdue_and_generate_recurring_transactions(client, app):
+    register_user(client, email="bills@example.com")
+    response = client.post(
+        "/bills",
+        data={
+            "name": "Rent",
+            "amount": "800",
+            "due_date": (date.today() - timedelta(days=1)).isoformat(),
+            "recurrence": "monthly",
+            "category": "Housing",
+            "account": "Bank",
+        },
+    )
+    assert response.status_code == 302
+    response = client.get("/bills")
+    assert response.status_code == 200
+    assert b"Overdue" in response.data
+    response = client.get("/dashboard")
+    assert response.status_code == 200
+    response = client.get("/dashboard")
+    assert response.status_code == 200
+    with app.app_context():
+        bill = Bill.query.one()
+        assert bill.paid is True
+        assert Transaction.query.filter_by(bill_id=bill.id).count() == 1
+        assert bill.due_date > date.today()
