@@ -218,3 +218,38 @@ def test_goal_progress_contributions_history_and_crud(client, app):
     assert response.status_code == 302
     with app.app_context():
         assert db.session.get(Goal, goal_id) is None
+
+
+def test_dashboard_uses_real_period_data_and_empty_states(client, app):
+    register_user(client)
+    client.post(
+        "/transactions",
+        data={
+            "transaction_type": "income",
+            "amount": "1000",
+            "category": "Salary",
+            "account": "Bank",
+            "date": "2026-11-14",
+        },
+    )
+    client.post(
+        "/transactions",
+        data={
+            "transaction_type": "expense",
+            "amount": "250",
+            "category": "Food",
+            "account": "Card",
+            "date": "2026-11-14",
+        },
+    )
+    response = client.get("/dashboard?period=this_month")
+    assert response.status_code == 200
+    assert b"$750.00" in response.data
+    assert b"$1,000.00" in response.data
+    assert b"Food 100%" in response.data
+    assert b"75.0%" in response.data
+
+    response = client.get("/dashboard?start=2026-11-01&end=2026-11-10")
+    assert response.status_code == 200
+    assert b"No transactions in this period" in response.data
+    assert b"No expense data for this period" in response.data
