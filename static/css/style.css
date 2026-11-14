@@ -255,6 +255,48 @@ a:hover { color: var(--teal-dark); }
   background: linear-gradient(160deg, #3d52a0, #2f438c);
   backdrop-filter: none;
 }
+.card {
+  border-radius: 12px;
+  padding: 20px;
+}
+.card h3 {
+  font-size: 15px;
+  letter-spacing: -.01em;
+}
+.metric {
+  min-height: 136px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.metric strong {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.025em;
+}
+.metric small { font-size: 11px; }
+.section { margin-top: 24px; }
+.transactions th {
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.transactions td, .transactions th { vertical-align: middle; }
+.muted {
+  line-height: 1.55;
+}
+.card > .muted:only-child,
+.card > h3 + .muted {
+  padding: 20px 8px;
+  text-align: center;
+}
+.progress {
+  height: 10px;
+  border-radius: 999px;
+}
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.2;
+}
 .topbar { justify-content: flex-start; border-bottom-color: rgb(255 255 255 / 18%); }
 .topbar h1 { letter-spacing: -.01em; }
 .topbar {
