@@ -348,6 +348,34 @@ a:hover { color: var(--teal-dark); }
   border: 1px solid rgb(255 255 255 / 24%);
   box-shadow: 0 6px 16px rgb(24 39 104 / 18%);
 }
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex: 0 0 32px;
+}
+.sidebar .brand-logo, .auth-logo, .landing footer .footer-logo {
+  filter: brightness(0) invert(1);
+}
+.auth-logo {
+  display: block;
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 18px;
+}
+.footer-logo {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 7px;
+}
+.features-summary .brand-logo {
+  display: block;
+  padding: 8px;
+  border-radius: 50%;
+  background: #e8edfb;
+}
 .nav { gap: 6px; }
 .nav-section-label {
   padding: 0 14px 8px;

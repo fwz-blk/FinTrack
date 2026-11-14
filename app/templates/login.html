@@ -1,7 +1,7 @@
 {% extends "public_base.html" %}
 {% block title %}Login — FinTrack{% endblock %}
 {% block content %}
-<main class="auth"><aside class="auth-aside"><div><i class="brand-mark">▰</i><h1>FinTrack</h1><p>Manage money. Reach goals.</p></div></aside>
+<main class="auth"><aside class="auth-aside"><div><img class="auth-logo" src="{{ url_for('static', filename='images/fintrack-logo.svg') }}" alt=""><h1>FinTrack</h1><p>Manage money. Reach goals.</p></div></aside>
   <section class="auth-form"><a href="{{ url_for('landing') }}" class="back">← &nbsp; Back to home</a><h2>Welcome back</h2><p class="muted">Login to manage your finances</p>
     {% with messages = get_flashed_messages() %}{% if messages %}<p class="form-message">{{ messages[0] }}</p>{% endif %}{% endwith %}
     <form action="{{ url_for('login') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

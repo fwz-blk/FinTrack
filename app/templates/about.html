@@ -3,7 +3,7 @@
 {% block content %}
 <main class="landing about-page">
   <header class="landing-nav">
-    <a class="brand" href="{{ url_for('landing') }}"><i class="brand-mark">▰</i><span>FinTrack</span></a>
+    <a class="brand" href="{{ url_for('landing') }}"><img class="brand-logo" src="{{ url_for('static', filename='images/fintrack-logo.svg') }}" alt=""><span>FinTrack</span></a>
     <nav>
       <a href="{{ url_for('landing') }}">Home</a>
       <a href="{{ url_for('features') }}">Features</a>
@@ -40,6 +40,6 @@
     <a class="btn" href="{{ url_for('register') }}">Create your account &nbsp; →</a>
   </section>
 
-  <footer><b>▰ &nbsp; FinTrack</b><small><a href="{{ url_for('privacy') }}">Privacy</a> &nbsp;&nbsp; <a href="{{ url_for('terms') }}">Terms</a> &nbsp;&nbsp; <a href="{{ url_for('help_page') }}">Help</a><br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
+  <footer><b><img class="footer-logo" src="{{ url_for('static', filename='images/fintrack-logo.svg') }}" alt="">FinTrack</b><small><a href="{{ url_for('privacy') }}">Privacy</a> &nbsp;&nbsp; <a href="{{ url_for('terms') }}">Terms</a> &nbsp;&nbsp; <a href="{{ url_for('help_page') }}">Help</a><br>© 2026 FinTrack. All rights reserved.</small><small>✉ &nbsp; support@fintrack.com</small></footer>
 </main>
 {% endblock %}
