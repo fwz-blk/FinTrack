@@ -317,3 +317,22 @@ a:hover { color: var(--teal-dark); }
   .card, .btn, .landing-nav, .mock-chart, .feature-card { animation: none; }
   .card { transform: none; }
 }
+
+/* Keep the application usable in split-screen panes before phone widths. */
+@media (max-width: 1100px) {
+  .sidebar { width: 64px; flex-basis: 64px; padding: 15px 7px; }
+  .brand { padding: 0 8px 26px; }
+  .brand span, .nav a span { display: none; }
+  .nav a { justify-content: center; padding: 13px 5px; }
+  .sidebar.open { position: fixed; inset: 60px auto 0 0; z-index: 30; width: 220px; flex-basis: 220px; }
+  .sidebar.open .brand span, .sidebar.open .nav a span { display: inline; }
+  .sidebar.open .nav a { justify-content: flex-start; padding: 12px 10px; }
+  .toolbar { gap: 12px; padding: 0 16px; }
+  .toolbar .search { width: min(240px, 30vw); }
+  .toolbar .btn { padding: 10px 14px; white-space: nowrap; }
+  .filters { flex-wrap: wrap; }
+  .filters > * { flex: 1 1 180px; min-width: 180px; }
+  .filters > .btn, .filters button { flex: 0 0 auto; }
+  .page-head { align-items: flex-start; gap: 16px; }
+  .page-head > form { flex-wrap: wrap; }
+}
