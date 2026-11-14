@@ -6,17 +6,17 @@
 <section class="content">
   <div class="page-head">
     <div><h2>Reports & Analytics</h2><p>{{ filter_label }}: {{ start_value }} to {{ end_value }}</p></div>
-    <div>
+    <div class="d-flex flex-wrap gap-2">
       <a class="btn outline" href="{{ url_for('reports_print', filter=filter_name, start=start_value, end=end_value) }}" target="_blank">Print</a>
       <a class="btn outline" href="{{ url_for('reports_pdf', filter=filter_name, start=start_value, end=end_value) }}">PDF</a>
       <a class="btn outline" href="{{ url_for('reports_csv', filter=filter_name, start=start_value, end=end_value) }}">CSV</a>
     </div>
   </div>
-  <form class="card" method="get" action="{{ url_for('reports') }}" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap">
-    <label>Period<select class="field" name="filter"><option value="current_month" {% if filter_name == "current_month" %}selected{% endif %}>Current month</option><option value="previous_month" {% if filter_name == "previous_month" %}selected{% endif %}>Previous month</option><option value="current_year" {% if filter_name == "current_year" %}selected{% endif %}>Current year</option><option value="custom" {% if filter_name == "custom" %}selected{% endif %}>Custom dates</option></select></label>
-    <label>From<input class="field" type="date" name="start" value="{{ start_value }}"></label>
-    <label>To<input class="field" type="date" name="end" value="{{ end_value }}"></label>
-    <button class="btn" type="submit">Apply filters</button>
+  <form class="card row g-3 align-items-end" method="get" action="{{ url_for('reports') }}">
+    <label class="col-12 col-md-4 col-lg-3">Period<select class="field" name="filter"><option value="current_month" {% if filter_name == "current_month" %}selected{% endif %}>Current month</option><option value="previous_month" {% if filter_name == "previous_month" %}selected{% endif %}>Previous month</option><option value="current_year" {% if filter_name == "current_year" %}selected{% endif %}>Current year</option><option value="custom" {% if filter_name == "custom" %}selected{% endif %}>Custom dates</option></label>
+    <label class="col-12 col-md-4 col-lg-3">From<input class="field" type="date" name="start" value="{{ start_value }}"></label>
+    <label class="col-12 col-md-4 col-lg-3">To<input class="field" type="date" name="end" value="{{ end_value }}"></label>
+    <div class="col-12 col-lg-3"><button class="btn" type="submit">Apply filters</button></div>
   </form>
   <div class="cards four">
     <article class="card metric"><span class="label">Income</span><strong>${{ '%.2f'|format(income) }}</strong></article>
