@@ -3,7 +3,5 @@
   <input class="search" type="search" placeholder="⌕   Search transactions..." aria-label="Search transactions">
   <button class="btn" type="button" data-open-modal>＋ &nbsp; Add New</button>
   <span class="spacer"></span>
-  <div class="menu-wrap"><button class="icon-btn" type="button" data-notifications-toggle aria-expanded="false" aria-controls="notifications-menu" aria-label="Notifications">♢</button><div id="notifications-menu" class="popover hidden"><b>Notifications</b><a href="{{ url_for('budgets') }}">Review budget alerts</a><a href="{{ url_for('transactions') }}">Review recent transactions</a></div></div>
-  <button class="icon-btn" type="button" data-dark-mode-toggle aria-label="Toggle dark mode" aria-pressed="false">☾</button>
   <div class="menu-wrap"><button class="avatar" type="button" data-profile-toggle aria-expanded="false" aria-controls="profile-menu" aria-label="Open profile menu">{{ (session.get("user_name") or "U")[0]|upper }}</button><div id="profile-menu" class="popover hidden"><b>{{ session.get("user_name") or "Profile" }}</b><a href="{{ url_for('settings') }}">Settings</a><a href="{{ url_for('logout') }}">Log out</a></div></div>
 </header>

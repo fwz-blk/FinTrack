@@ -255,12 +255,17 @@ a:hover { color: var(--teal-dark); }
   background: linear-gradient(160deg, #3d52a0, #2f438c);
   backdrop-filter: none;
 }
-.topbar { border-bottom-color: rgb(255 255 255 / 18%); }
+.topbar { justify-content: flex-start; border-bottom-color: rgb(255 255 255 / 18%); }
+.topbar h1 { letter-spacing: -.01em; }
+.sidebar { width: 220px; flex-basis: 220px; }
+.sidebar a { color: #dce5ff; }
+.sidebar .brand, .sidebar .brand:hover { color: #fff; }
+.sidebar .nav a:hover, .sidebar .nav a.active { color: #fff; }
 .toolbar {
   color: var(--ink);
-  background: rgb(255 255 255 / 94%);
+  background: #fff;
   border-color: var(--line);
-  backdrop-filter: blur(16px);
+  backdrop-filter: none;
 }
 .menu-btn, .icon-btn { color: var(--navy); }
 .search, .field, .filters input, .filters select {
@@ -271,7 +276,7 @@ a:hover { color: var(--teal-dark); }
 .search::placeholder, input::placeholder { color: #8492b5; }
 .card, .modal, .popover {
   color: var(--ink);
-  background: rgb(255 255 255 / 96%);
+  background: #fff;
   border-color: var(--glass-border);
   box-shadow: var(--shadow);
   backdrop-filter: none;

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% set active_page = "dashboard" %}
-{% block title %}Dashboard — FinTrack{% endblock %}{% block page_title %}Dashboard{% endblock %}{% block page_path %}/dashboard{% endblock %}
+{% block title %}Dashboard — FinTrack{% endblock %}{% block page_title %}Dashboard{% endblock %}
 {% block content %}
 <section class="content">
   <div class="page-head"><div><h2>Dashboard</h2><p>Overview of your money — {{ period_label }}</p></div><form method="get" action="{{ url_for('dashboard') }}" style="display:flex;gap:8px;align-items:center"><select class="field" name="period" style="width:160px" onchange="this.form.submit()" aria-label="Dashboard time period">{% for value, label in [("this_week", "Current week"), ("this_month", "Current month"), ("this_year", "This year"), ("all_time", "All time")] %}<option value="{{ value }}" {% if selected_period == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><input class="field" type="date" name="start" value="{{ start_value }}" aria-label="Start date"><input class="field" type="date" name="end" value="{{ end_value }}" aria-label="End date"><button class="btn" type="submit">Apply</button></form></div>

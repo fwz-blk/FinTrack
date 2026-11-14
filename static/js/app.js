@@ -1,21 +1,10 @@
 (() => {
   const modal = document.getElementById("modal");
-  const darkModeKey = "fintrack-dark-mode";
   const themeVersionKey = "fintrack-theme-version";
-
-  function applyDarkMode(enabled) {
-    document.documentElement.classList.toggle("dark-mode", enabled);
-    document.querySelectorAll("[data-dark-mode-toggle]").forEach((toggle) => {
-      toggle.classList.toggle("on", enabled);
-      toggle.setAttribute("aria-pressed", String(enabled));
-    });
+  if (localStorage.getItem(themeVersionKey) !== "metallic-chic-v2") {
+    localStorage.setItem(themeVersionKey, "metallic-chic-v2");
+    document.documentElement.classList.remove("dark-mode");
   }
-
-  if (localStorage.getItem(themeVersionKey) !== "metallic-chic-v1") {
-    localStorage.setItem(themeVersionKey, "metallic-chic-v1");
-    localStorage.setItem(darkModeKey, "false");
-  }
-  applyDarkMode(localStorage.getItem(darkModeKey) === "true");
 
   const dashboard = document.querySelector("[data-api-dashboard]");
   if (dashboard) {
@@ -86,12 +75,11 @@
       const open = sidebar && sidebar.classList.toggle("open");
       menuToggle.setAttribute("aria-expanded", String(Boolean(open)));
     }
-    const notificationsToggle = event.target.closest("[data-notifications-toggle]");
     const profileToggle = event.target.closest("[data-profile-toggle]");
-    if (notificationsToggle || profileToggle) {
-      const target = document.getElementById(notificationsToggle ? "notifications-menu" : "profile-menu");
+    if (profileToggle) {
+      const target = document.getElementById("profile-menu");
       target.classList.toggle("hidden");
-      (notificationsToggle || profileToggle).setAttribute("aria-expanded", String(!target.classList.contains("hidden")));
+      profileToggle.setAttribute("aria-expanded", String(!target.classList.contains("hidden")));
     }
     if (!event.target.closest(".menu-wrap")) {
       document.querySelectorAll(".popover").forEach((item) => item.classList.add("hidden"));
@@ -107,12 +95,6 @@
       document.querySelectorAll("[data-settings-tab]").forEach((item) => item.classList.toggle("active", item === settingsTab));
       document.querySelectorAll("[data-settings-panel]").forEach((panel) => panel.classList.toggle("hidden", panel.dataset.settingsPanel !== tab));
       history.replaceState(null, "", `${window.location.pathname}?tab=${tab}`);
-    }
-    const darkModeToggle = event.target.closest("[data-dark-mode-toggle]");
-    if (darkModeToggle) {
-      const enabled = !document.documentElement.classList.contains("dark-mode");
-      applyDarkMode(enabled);
-      localStorage.setItem(darkModeKey, String(enabled));
     }
     if (event.target.matches("[data-loading]")) return;
     const transactionType = event.target.closest("[data-transaction-type]");

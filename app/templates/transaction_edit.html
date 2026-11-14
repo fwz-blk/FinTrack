@@ -2,7 +2,6 @@
 {% set active_page = "transactions" %}
 {% block title %}Edit Transaction — FinTrack{% endblock %}
 {% block page_title %}Edit Transaction{% endblock %}
-{% block page_path %}/transactions/{{ transaction.id }}/edit{% endblock %}
 {% block content %}
 <section class="content"><div class="page-head"><div><h2>Edit transaction</h2><p>Update this transaction safely</p></div><a class="btn outline" href="{{ url_for('transactions') }}">Back</a></div>
 <form class="card" method="post" enctype="multipart/form-data"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

@@ -2,7 +2,6 @@
 {% set active_page = "budgets" %}
 {% block title %}Edit Budget — FinTrack{% endblock %}
 {% block page_title %}Edit Budget{% endblock %}
-{% block page_path %}/budgets/{{ budget.id }}/edit{% endblock %}
 {% block content %}
 <section class="content"><div class="page-head"><div><h2>Edit budget</h2><p>Update your limit and warning settings</p></div><a class="btn outline" href="{{ url_for('budgets') }}">Back</a></div>
 <form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
