@@ -33,7 +33,7 @@
         <button class="btn outline" type="submit">Import CSV</button>
       </form>
     </div>
-    <div class="table-card">
+    <div class="table-card table-responsive">
       <table class="transactions">
         <thead><tr>{% for heading in ["", "Type", "Date", "Category", "Account", "Note", "Amount", "Actions"] %}<th>{{ heading }}</th>{% endfor %}</tr></thead>
         <tbody>
