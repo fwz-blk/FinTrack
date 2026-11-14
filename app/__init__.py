@@ -3,7 +3,8 @@ from pathlib import Path
 
 from datetime import date, timedelta
 
-from flask import Flask, render_template, session
+from flask import Flask, jsonify, render_template, session
+from sqlalchemy import text
 from .extensions import csrf, db, limiter, migrate
 
 
@@ -31,6 +32,8 @@ def create_app(test_config=None):
         MAX_CONTENT_LENGTH=5 * 1024 * 1024,
         RATELIMIT_ENABLED=True,
     )
+    if os.environ.get("FLASK_ENV") == "production" and app.config["SECRET_KEY"] == "dev-only-change-me":
+        raise RuntimeError("SECRET_KEY must be configured in production.")
     if test_config:
         app.config.update(test_config)
 
@@ -80,6 +83,11 @@ def create_app(test_config=None):
     def server_error(error):
         db.session.rollback()
         return render_template("errors/500.html"), 500
+
+    @app.get("/health")
+    def health():
+        db.session.execute(text("SELECT 1"))
+        return jsonify({"status": "ok"})
 
     @app.context_processor
     def shared_context():

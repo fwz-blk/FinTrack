@@ -20,6 +20,9 @@ def register_user(client, name="Test User", email="test@example.com"):
 def test_public_pages_render(client):
     for path in ("/", "/features", "/about", "/help", "/terms", "/privacy", "/login", "/register"):
         assert client.get(path).status_code == 200
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json == {"status": "ok"}
 
 
 def test_protected_pages_redirect_when_logged_out(client):
