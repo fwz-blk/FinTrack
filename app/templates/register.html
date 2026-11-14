@@ -1,0 +1,18 @@
+{% extends "public_base.html" %}
+{% block title %}Register — FinTrack{% endblock %}
+{% block content %}
+<main class="auth"><aside class="auth-aside"><div><i class="brand-mark">▰</i><h1>FinTrack</h1><p>Manage money. Reach goals.</p></div></aside>
+  <section class="auth-form"><a href="{{ url_for('landing') }}" class="back">← &nbsp; Back to home</a><h2>Create account</h2><p class="muted">Start tracking your money today</p>
+    {% with messages = get_flashed_messages() %}{% if messages %}<p class="form-message">{{ messages[0] }}</p>{% endif %}{% endwith %}
+    <form action="{{ url_for('register') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="field-wrap"><label for="name">Full name</label><input id="name" name="name" class="field" placeholder="Your name" required></div>
+      <div class="field-wrap"><label for="email">Email</label><input id="email" name="email" class="field" type="email" placeholder="you@email.com" required></div>
+      <div class="field-wrap"><label for="password">Password</label><input id="password" name="password" class="field" type="password" placeholder="••••••••" required></div>
+      <div class="field-wrap"><label for="confirm-password">Confirm password</label><input id="confirm-password" name="confirm_password" class="field" type="password" placeholder="••••••••" required></div>
+      <label><input type="checkbox"> I agree to the Terms and Privacy Policy</label>
+      <button class="btn block submit" type="submit">Create Account</button>
+    </form>
+    <p class="center-link"><a href="{{ url_for('login') }}">Already have an account? Login</a></p>
+  </section>
+</main>
+{% endblock %}
