@@ -27,6 +27,28 @@
       .catch((error) => console.error("Dashboard API request failed", error));
   }
 
+  const transactionRows = document.querySelectorAll("[data-transaction-id]");
+  if (transactionRows.length) {
+    const query = new URLSearchParams(window.location.search);
+    fetch(`/api/v1/transactions?${query.toString()}`, { headers: { Accept: "application/json" } })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (!payload || !Array.isArray(payload.data)) return;
+        const byId = new Map(payload.data.map((item) => [String(item.id), item]));
+        transactionRows.forEach((row) => {
+          const item = byId.get(row.dataset.transactionId);
+          if (!item) return;
+          const cells = row.querySelectorAll("td");
+          cells[2].textContent = item.date;
+          cells[3].textContent = item.category;
+          cells[4].textContent = item.account;
+          cells[5].textContent = item.note || "—";
+          cells[6].textContent = `${item.type === "income" ? "+" : "-"}$${Number(item.amount).toFixed(2)}`;
+        });
+      })
+      .catch((error) => console.error("Transactions API request failed", error));
+  }
+
   function closeModal() {
     if (modal) modal.classList.add("hidden");
   }

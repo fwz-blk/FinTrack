@@ -39,7 +39,7 @@
         <thead><tr>{% for heading in ["", "Type", "Date", "Category", "Account", "Note", "Amount", "Actions"] %}<th>{{ heading }}</th>{% endfor %}</tr></thead>
         <tbody>
           {% for t in transactions %}
-          <tr>
+          <tr data-transaction-id="{{ t.id }}">
             <td><input form="bulk-form" type="checkbox" name="transaction_ids" value="{{ t.id }}" aria-label="Select transaction"></td>
             <td style="color:var(--{{ 'green' if t.kind == 'income' else 'red' }})">{{ t.type }}</td>
             <td>{{ t.date_display }}</td><td><span class="pill">{{ t.category }}</span></td><td>{{ t.account }}</td>

@@ -2,6 +2,7 @@ from datetime import date
 from decimal import Decimal, InvalidOperation
 
 from flask import Blueprint, jsonify, render_template, request, session
+from sqlalchemy import or_
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..extensions import db
@@ -106,6 +107,29 @@ def list_transactions():
     query = Transaction.query.filter_by(user_id=request.current_user.id)
     if request.args.get("type") in {"income", "expense"}:
         query = query.filter_by(transaction_type=request.args["type"])
+    if request.args.get("category"):
+        query = query.filter_by(category=request.args["category"])
+    if request.args.get("account"):
+        query = query.filter_by(account=request.args["account"])
+    if request.args.get("search"):
+        term = f"%{request.args['search']}%"
+        query = query.filter(
+            or_(
+                Transaction.note.ilike(term),
+                Transaction.category.ilike(term),
+                Transaction.account.ilike(term),
+            )
+        )
+    if request.args.get("date_from"):
+        transaction_date, error = _date(request.args["date_from"], "date_from")
+        if error:
+            return _response(errors=error, status=422)
+        query = query.filter(Transaction.date >= transaction_date)
+    if request.args.get("date_to"):
+        transaction_date, error = _date(request.args["date_to"], "date_to")
+        if error:
+            return _response(errors=error, status=422)
+        query = query.filter(Transaction.date <= transaction_date)
     items = query.order_by(Transaction.date.desc(), Transaction.id.desc()).all()
     return _response([_transaction_data(item) for item in items])
 
