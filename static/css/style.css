@@ -221,3 +221,94 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   background: transparent;
   border-color: var(--teal);
 }
+
+/* Metallic Chic: the canonical FinTrack theme. */
+:root {
+  --navy: #3d52a0;
+  --navy-2: #2f438c;
+  --teal: #3d52a0;
+  --teal-dark: #2f438c;
+  --red: #c94b68;
+  --green: #2d9662;
+  --orange: #c78327;
+  --blue: #7091e6;
+  --ink: #1d294d;
+  --muted: #596b99;
+  --line: #d7def0;
+  --surface: #f5f7fd;
+  --white: #ffffff;
+  --glass: rgb(255 255 255 / 94%);
+  --glass-border: #dbe3f4;
+  --shadow: 0 12px 30px rgb(61 82 160 / 12%);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+body {
+  background:
+    radial-gradient(circle at 8% 0%, rgb(112 145 230 / 15%), transparent 28rem),
+    radial-gradient(circle at 94% 8%, rgb(173 187 218 / 20%), transparent 30rem),
+    var(--surface);
+}
+a { color: var(--navy); }
+a:hover { color: var(--teal-dark); }
+.topbar, .sidebar {
+  color: #fff;
+  background: linear-gradient(160deg, #3d52a0, #2f438c);
+  backdrop-filter: none;
+}
+.topbar { border-bottom-color: rgb(255 255 255 / 18%); }
+.toolbar {
+  color: var(--ink);
+  background: rgb(255 255 255 / 94%);
+  border-color: var(--line);
+  backdrop-filter: blur(16px);
+}
+.menu-btn, .icon-btn { color: var(--navy); }
+.search, .field, .filters input, .filters select {
+  color: var(--ink);
+  background: #fff;
+  border-color: var(--line);
+}
+.search::placeholder, input::placeholder { color: #8492b5; }
+.card, .modal, .popover {
+  color: var(--ink);
+  background: rgb(255 255 255 / 96%);
+  border-color: var(--glass-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}
+.btn { color: #fff; background: var(--navy); box-shadow: 0 7px 16px rgb(61 82 160 / 20%); }
+.btn:hover { color: #fff; background: var(--navy-2); }
+.btn.outline { color: var(--navy); background: #fff; border-color: var(--navy); }
+.btn.outline:hover { color: #fff; background: var(--navy); }
+.nav a:hover, .nav a.active { color: #fff; background: rgb(255 255 255 / 16%); }
+.landing, .auth { color: var(--ink); background: var(--surface); }
+.landing-nav {
+  color: var(--ink);
+  background: rgb(255 255 255 / 92%);
+  border-color: var(--line);
+  backdrop-filter: blur(16px);
+}
+.landing-nav nav a, .landing-nav nav a:first-child { color: var(--navy); }
+.landing-nav nav a:hover, .landing-nav nav a.active { color: var(--blue); }
+.hero, .features-hero, .about-hero { background: transparent; }
+.hero h1 span, .features-hero h1 span, .about-hero h1 span { color: var(--navy); }
+.mock-chart, .features-summary { background: #fff; border-color: var(--line); box-shadow: var(--shadow); }
+.landing footer { color: #fff; background: var(--navy); }
+.landing footer a { color: #dce5ff; }
+.auth-aside { background: linear-gradient(145deg, #3d52a0, #7091e6); }
+.form-message { color: #8f2943; background: #fff1f4; border-color: #efb4c1; }
+.tabs button.active { color: var(--navy); background: #e8edfb; }
+.progress { background: #e6ebf7; }
+.transactions th { color: var(--muted); background: #f5f7fd; }
+.transactions td { border-color: var(--line); }
+.pill { color: var(--navy); background: #e8edfb; }
+.pie.donut:after { background: #fff; }
+.flash-stack { padding: 0 22px; }
+.card, .btn, .landing-nav, .mock-chart, .feature-card { animation: surface-in .35s ease both; }
+.btn, .nav a, .icon-btn, .avatar, .card { transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgb(61 82 160 / 16%); }
+@keyframes surface-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .card, .btn, .landing-nav, .mock-chart, .feature-card { animation: none; }
+  .card { transform: none; }
+}

@@ -1,6 +1,7 @@
 (() => {
   const modal = document.getElementById("modal");
   const darkModeKey = "fintrack-dark-mode";
+  const themeVersionKey = "fintrack-theme-version";
 
   function applyDarkMode(enabled) {
     document.documentElement.classList.toggle("dark-mode", enabled);
@@ -10,7 +11,11 @@
     });
   }
 
-  applyDarkMode(localStorage.getItem(darkModeKey) !== "false");
+  if (localStorage.getItem(themeVersionKey) !== "metallic-chic-v1") {
+    localStorage.setItem(themeVersionKey, "metallic-chic-v1");
+    localStorage.setItem(darkModeKey, "false");
+  }
+  applyDarkMode(localStorage.getItem(darkModeKey) === "true");
 
   const dashboard = document.querySelector("[data-api-dashboard]");
   if (dashboard) {
