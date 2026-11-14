@@ -2,7 +2,7 @@ import io
 from datetime import date, timedelta
 
 from app.extensions import db
-from app.models import Bill, Budget, Goal, GoalContribution, Transaction, User
+from app.models import AuditLog, Bill, Budget, Goal, GoalContribution, Transaction, User
 
 
 def register_user(client, name="Test User", email="test@example.com"):
@@ -343,6 +343,15 @@ def test_settings_persist_security_export_and_data_controls(client, app):
     assert response.status_code == 200
     assert response.mimetype == "application/json"
     assert b"settings-new@example.com" in response.data
+    with app.app_context():
+        assert {log.action for log in AuditLog.query.all()} >= {
+            "account_created",
+            "login",
+            "profile_updated",
+            "preferences_updated",
+            "password_changed",
+            "account_exported",
+        }
 
     response = client.post(
         "/settings",

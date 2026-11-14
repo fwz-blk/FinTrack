@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import date, timedelta
 
 from flask import Flask, render_template, session
-from .extensions import csrf, db, migrate
+from .extensions import csrf, db, limiter, migrate
 
 
 def create_app(test_config=None):
@@ -29,6 +29,7 @@ def create_app(test_config=None):
         SESSION_COOKIE_SAMESITE="Lax",
         SESSION_COOKIE_SECURE=os.environ.get("SESSION_COOKIE_SECURE", "0") == "1",
         MAX_CONTENT_LENGTH=5 * 1024 * 1024,
+        RATELIMIT_ENABLED=True,
     )
     if test_config:
         app.config.update(test_config)
@@ -37,6 +38,7 @@ def create_app(test_config=None):
     db.init_app(app)
     migrate.init_app(app, db)
     csrf.init_app(app)
+    limiter.init_app(app)
     from .cli import register_commands
 
     register_commands(app)
@@ -73,6 +75,11 @@ def create_app(test_config=None):
     @app.errorhandler(403)
     def forbidden(error):
         return render_template("errors/403.html"), 403
+
+    @app.errorhandler(500)
+    def server_error(error):
+        db.session.rollback()
+        return render_template("errors/500.html"), 500
 
     @app.context_processor
     def shared_context():

@@ -11,6 +11,7 @@ def app(tmp_path):
             "TESTING": True,
             "WTF_CSRF_ENABLED": False,
             "SECRET_KEY": "test-secret",
+            "RATELIMIT_ENABLED": False,
             "SQLALCHEMY_DATABASE_URI": f"sqlite:///{tmp_path / 'test.db'}",
         }
     )

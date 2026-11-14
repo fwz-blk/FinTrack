@@ -4,27 +4,35 @@ from flask import current_app, flash, redirect, render_template, request, sessio
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..extensions import db
+from ..extensions import limiter
 from ..models import User
+from ..services.audit import record_action
 from .security import make_token, password_error, read_token
 
 
 def register(app):
     @app.route("/login", methods=["GET", "POST"])
+    @limiter.limit("5 per minute", methods=["POST"])
     def login():
         if request.method == "POST":
             email = request.form.get("email", "").strip().lower()
             password = request.form.get("password", "")
             user = User.query.filter_by(email=email).first()
             if user is None or not check_password_hash(user.password_hash, password):
+                record_action(user.id if user else None, "login_failed")
+                db.session.commit()
                 flash("Invalid email or password.")
                 return render_template("login.html"), 401
             session["user_id"] = user.id
             session["user_name"] = user.name
             session.permanent = True
+            record_action(user.id, "login")
+            db.session.commit()
             return redirect(url_for("dashboard"))
         return render_template("login.html")
 
     @app.route("/register", methods=["GET", "POST"])
+    @limiter.limit("3 per hour", methods=["POST"])
     def register():
         if request.method == "POST":
             name = request.form.get("name", "").strip()
@@ -49,6 +57,8 @@ def register(app):
                 password_hash=generate_password_hash(password),
             )
             db.session.add(user)
+            db.session.commit()
+            record_action(user.id, "account_created")
             db.session.commit()
             session["user_id"] = user.id
             session["user_name"] = user.name

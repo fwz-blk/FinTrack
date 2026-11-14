@@ -8,6 +8,7 @@ from ..auth.decorators import login_required
 from ..auth.security import password_error
 from ..extensions import db
 from ..models import User
+from ..services.audit import record_action
 
 
 def _account_export(user):
@@ -64,6 +65,7 @@ def register(app):
                 user.timezone = request.form.get("timezone", "UTC")[:64]
                 user.avatar_url = request.form.get("avatar_url", "").strip() or None
                 session["user_name"] = name
+                record_action(user.id, "profile_updated")
                 flash("Profile saved.")
             elif action == "password":
                 current = request.form.get("current_password", "")
@@ -77,12 +79,14 @@ def register(app):
                 else:
                     user.password_hash = generate_password_hash(new_password)
                     user.reset_token_version += 1
+                    record_action(user.id, "password_changed")
                     flash("Password changed.")
             elif action == "preferences":
                 user.preferences = {
                     "notifications": request.form.get("notifications") == "on",
                     "budget_alerts": request.form.get("budget_alerts") == "on",
                 }
+                record_action(user.id, "preferences_updated")
                 flash("Preferences saved.")
             elif action == "anonymize":
                 if request.form.get("confirmation") != "ANONYMIZE":
@@ -97,6 +101,7 @@ def register(app):
                     user.goals.clear()
                     user.categories.clear()
                     user.accounts.clear()
+                    record_action(user.id, "data_anonymized")
                     db.session.commit()
                     session.clear()
                     flash("Your financial data was removed and your account was anonymized.")
@@ -105,6 +110,7 @@ def register(app):
                 if request.form.get("confirmation") != "DELETE":
                     flash("Type DELETE to permanently delete your account.")
                 else:
+                    record_action(user.id, "account_deleted")
                     db.session.delete(user)
                     db.session.commit()
                     session.clear()
@@ -122,6 +128,8 @@ def register(app):
     @login_required
     def settings_export():
         user = db.get_or_404(User, session["user_id"])
+        record_action(user.id, "account_exported")
+        db.session.commit()
         return Response(
             json.dumps(_account_export(user), indent=2),
             mimetype="application/json",

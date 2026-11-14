@@ -37,10 +37,12 @@ class User(db.Model):
         "Account", back_populates="user", cascade="all, delete-orphan"
     )
     bills = db.relationship("Bill", back_populates="user", cascade="all, delete-orphan")
+    audit_logs = db.relationship("AuditLog", back_populates="user", cascade="all, delete-orphan")
 
 
 class Transaction(db.Model):
     __tablename__ = "transactions"
+    __table_args__ = (db.Index("ix_transactions_user_date", "user_id", "date"),)
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
@@ -99,7 +101,10 @@ class Account(db.Model):
 
 class Bill(db.Model):
     __tablename__ = "bills"
-    __table_args__ = (db.UniqueConstraint("user_id", "name"),)
+    __table_args__ = (
+        db.UniqueConstraint("user_id", "name"),
+        db.Index("ix_bills_user_due_date", "user_id", "due_date"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
@@ -113,6 +118,18 @@ class Bill(db.Model):
 
     user = db.relationship("User", back_populates="bills")
     transactions = db.relationship("Transaction", back_populates="bill")
+
+
+class AuditLog(db.Model):
+    __tablename__ = "audit_logs"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True, index=True)
+    action = db.Column(db.String(80), nullable=False)
+    ip_address = db.Column(db.String(45))
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
+
+    user = db.relationship("User", back_populates="audit_logs")
 
 
 class Budget(db.Model):
