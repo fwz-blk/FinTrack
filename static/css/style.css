@@ -184,3 +184,40 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Dark mode is the product default; green remains reserved for positive financial meaning. */
+:root.dark-mode {
+  --navy: #071a35;
+  --navy-2: #0d2b50;
+  --teal: #79b8ff;
+  --teal-dark: #4a93e6;
+  --blue: #79b8ff;
+  --ink: #edf6ff;
+  --muted: #9db2c9;
+  --line: rgb(164 203 237 / 18%);
+  --surface: #07182e;
+  --white: #102b4b;
+  --shadow: 0 18px 50px rgb(0 0 0 / 28%);
+}
+:root.dark-mode body {
+  background:
+    radial-gradient(circle at 15% 0%, rgb(49 125 174 / 18%), transparent 32rem),
+    radial-gradient(circle at 90% 15%, rgb(43 169 161 / 13%), transparent 28rem),
+    var(--surface);
+}
+:root.dark-mode .card,
+:root.dark-mode .toolbar,
+:root.dark-mode .modal,
+:root.dark-mode .popover,
+:root.dark-mode .field,
+:root.dark-mode .filters input,
+:root.dark-mode .filters select {
+  color: var(--ink);
+  background: rgb(16 43 75 / 72%);
+  border-color: var(--glass-border);
+}
+:root.dark-mode .btn.outline {
+  color: var(--teal);
+  background: transparent;
+  border-color: var(--teal);
+}

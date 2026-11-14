@@ -10,7 +10,7 @@
     });
   }
 
-  applyDarkMode(localStorage.getItem(darkModeKey) === "true");
+  applyDarkMode(localStorage.getItem(darkModeKey) !== "false");
 
   const dashboard = document.querySelector("[data-api-dashboard]");
   if (dashboard) {
