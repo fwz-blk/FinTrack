@@ -26,6 +26,13 @@
     if (event.target.matches("[data-modal-backdrop]")) closeModal();
     const toggle = event.target.closest("[data-toggle]");
     if (toggle) toggle.classList.toggle("on");
+    const settingsTab = event.target.closest("[data-settings-tab]");
+    if (settingsTab) {
+      const tab = settingsTab.dataset.settingsTab;
+      document.querySelectorAll("[data-settings-tab]").forEach((item) => item.classList.toggle("active", item === settingsTab));
+      document.querySelectorAll("[data-settings-panel]").forEach((panel) => panel.classList.toggle("hidden", panel.dataset.settingsPanel !== tab));
+      history.replaceState(null, "", `${window.location.pathname}?tab=${tab}`);
+    }
     const darkModeToggle = event.target.closest("[data-dark-mode-toggle]");
     if (darkModeToggle) {
       const enabled = !document.documentElement.classList.contains("dark-mode");

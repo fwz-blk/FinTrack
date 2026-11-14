@@ -299,3 +299,71 @@ def test_reports_are_filtered_exportable_printable_and_user_scoped(client, app):
     assert response.status_code == 200
     assert b"Food" not in response.data
     assert b"Salary" not in response.data
+
+
+def test_settings_persist_security_export_and_data_controls(client, app):
+    register_user(client, email="settings@example.com")
+    response = client.post(
+        "/settings",
+        data={
+            "action": "profile",
+            "name": "Updated Name",
+            "email": "settings-new@example.com",
+            "currency": "EUR",
+            "timezone": "Europe/London",
+        },
+    )
+    assert response.status_code == 302
+    response = client.post(
+        "/settings",
+        data={"action": "preferences", "notifications": "on"},
+    )
+    assert response.status_code == 302
+    response = client.post(
+        "/settings",
+        data={
+            "action": "password",
+            "current_password": "Password1",
+            "new_password": "NewPassword2",
+            "confirm_password": "NewPassword2",
+        },
+    )
+    assert response.status_code == 302
+    client.get("/logout")
+    response = client.post(
+        "/login",
+        data={"email": "settings-new@example.com", "password": "NewPassword2"},
+    )
+    assert response.status_code == 302
+    response = client.get("/settings")
+    assert b"Updated Name" in response.data
+    assert b"Europe/London" in response.data
+    response = client.get("/settings/export")
+    assert response.status_code == 200
+    assert response.mimetype == "application/json"
+    assert b"settings-new@example.com" in response.data
+
+    response = client.post(
+        "/settings",
+        data={"action": "anonymize", "confirmation": "ANONYMIZE"},
+    )
+    assert response.status_code == 302
+    with app.app_context():
+        user = User.query.one()
+        assert user.name == "Deleted User"
+        assert user.email.endswith("@example.invalid")
+        assert user.transactions == []
+
+
+def test_settings_can_permanently_delete_account(client, app):
+    register_user(client, email="delete-settings@example.com")
+    with app.app_context():
+        user_id = User.query.one().id
+    response = client.post(
+        "/settings",
+        data={"action": "delete", "confirmation": "DELETE"},
+    )
+    assert response.status_code == 302
+    with app.app_context():
+        assert db.session.get(User, user_id) is None
+    assert client.get("/settings").status_code == 302
