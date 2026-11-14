@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from datetime import timedelta
+from datetime import date, timedelta
 
 from flask import Flask, render_template, session
 from .extensions import csrf, db, migrate
@@ -28,6 +28,7 @@ def create_app(test_config=None):
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
         SESSION_COOKIE_SECURE=os.environ.get("SESSION_COOKIE_SECURE", "0") == "1",
+        MAX_CONTENT_LENGTH=5 * 1024 * 1024,
     )
     if test_config:
         app.config.update(test_config)
@@ -74,6 +75,7 @@ def create_app(test_config=None):
     @app.context_processor
     def shared_context():
         return {
+            "today": date.today(),
             "implemented_pages": {
                 "dashboard",
                 "transactions",

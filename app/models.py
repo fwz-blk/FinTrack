@@ -27,6 +27,12 @@ class User(db.Model):
     goals = db.relationship(
         "Goal", back_populates="user", cascade="all, delete-orphan"
     )
+    categories = db.relationship(
+        "Category", back_populates="user", cascade="all, delete-orphan"
+    )
+    accounts = db.relationship(
+        "Account", back_populates="user", cascade="all, delete-orphan"
+    )
 
 
 class Transaction(db.Model):
@@ -40,6 +46,8 @@ class Transaction(db.Model):
     account = db.Column(db.String(80), nullable=False)
     date = db.Column(db.Date, nullable=False, default=date.today)
     note = db.Column(db.String(255))
+    recurring = db.Column(db.Boolean, nullable=False, default=False)
+    attachment_filename = db.Column(db.String(255))
 
     user = db.relationship("User", back_populates="transactions")
 
@@ -61,6 +69,28 @@ class Transaction(db.Model):
         return self.date.strftime("%d %b")
 
 
+class Category(db.Model):
+    __tablename__ = "categories"
+    __table_args__ = (db.UniqueConstraint("user_id", "name"),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+
+    user = db.relationship("User", back_populates="categories")
+
+
+class Account(db.Model):
+    __tablename__ = "accounts"
+    __table_args__ = (db.UniqueConstraint("user_id", "name"),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+
+    user = db.relationship("User", back_populates="accounts")
+
+
 class Budget(db.Model):
     __tablename__ = "budgets"
 
@@ -69,6 +99,10 @@ class Budget(db.Model):
     name = db.Column(db.String(80), nullable=False)
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     spent = db.Column(db.Numeric(10, 2), nullable=False, default=Decimal("0.00"))
+    category = db.Column(db.String(80), nullable=False, default="All")
+    period = db.Column(db.String(20), nullable=False, default="monthly")
+    warning_threshold = db.Column(db.Integer, nullable=False, default=80)
+    rollover = db.Column(db.Boolean, nullable=False, default=False)
 
     user = db.relationship("User", back_populates="budgets")
 

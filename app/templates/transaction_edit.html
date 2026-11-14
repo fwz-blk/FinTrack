@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set active_page = "transactions" %}
+{% block title %}Edit Transaction — FinTrack{% endblock %}
+{% block page_title %}Edit Transaction{% endblock %}
+{% block page_path %}/transactions/{{ transaction.id }}/edit{% endblock %}
+{% block content %}
+<section class="content"><div class="page-head"><div><h2>Edit transaction</h2><p>Update this transaction safely</p></div><a class="btn outline" href="{{ url_for('transactions') }}">Back</a></div>
+<form class="card" method="post" enctype="multipart/form-data"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="type-toggle"><button type="button" data-transaction-type="income" class="{% if transaction.transaction_type == 'income' %}selected income{% endif %}">↓ Income</button><button type="button" data-transaction-type="expense" class="{% if transaction.transaction_type == 'expense' %}selected expense{% endif %}">↑ Expense</button></div>
+  <input type="hidden" name="transaction_type" value="{{ transaction.transaction_type }}">
+  <div class="field-wrap"><label>Amount</label><input class="field" name="amount" type="number" min="0.01" step="0.01" value="{{ transaction.amount }}" required></div>
+  <div class="field-wrap"><label>Category</label><input class="field" name="category" list="category-options" value="{{ transaction.category }}" required><datalist id="category-options">{% for category in categories %}<option value="{{ category }}">{% endfor %}</datalist></div>
+  <div class="field-wrap"><label>Account</label><input class="field" name="account" list="account-options" value="{{ transaction.account }}" required><datalist id="account-options">{% for account in accounts %}<option value="{{ account }}">{% endfor %}</datalist></div>
+  <div class="field-wrap"><label>Date</label><input class="field" name="date" type="date" value="{{ transaction.date.isoformat() }}" required></div>
+  <div class="field-wrap"><label>Note</label><input class="field" name="note" value="{{ transaction.note or '' }}"></div>
+  <div class="field-wrap"><label><input type="checkbox" name="recurring" {% if transaction.recurring %}checked{% endif %}> Recurring transaction</label></div>
+  <div class="field-wrap"><label>Replace receipt</label><input name="attachment" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp"></div>
+  <button class="btn" type="submit">Save changes</button>
+</form></section>
+{% endblock %}

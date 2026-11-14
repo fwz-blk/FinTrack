@@ -4,10 +4,12 @@
     <div class="type-toggle"><button type="button" data-transaction-type="income">↓ &nbsp; Income</button><button type="button" class="selected expense" data-transaction-type="expense">↑ &nbsp; Expense</button></div>
     <input type="hidden" name="transaction_type" value="expense">
     <div class="field-wrap"><label for="amount">Amount</label><input id="amount" name="amount" class="field" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
-    <div class="field-wrap"><label for="category">Category</label><select id="category" name="category" class="field" required><option value="">Select category</option><option>Food</option><option>Transport</option><option>Rent</option><option>Shopping</option><option>Bills</option><option>Salary</option><option>Freelance</option></select></div>
-    <div class="field-wrap"><label for="account">Account</label><select id="account" name="account" class="field" required><option value="">Select account</option><option>Cash</option><option>Bank</option><option>Card</option></select></div>
-    <div class="field-wrap"><label for="date">Date</label><input id="date" name="date" class="field" type="date" value="2026-10-07" required></div>
+    <div class="field-wrap"><label for="category">Category</label><select id="category" name="category" class="field" required><option value="">Select category</option>{% for category in categories %}<option>{{ category }}</option>{% endfor %}</select></div>
+    <div class="field-wrap"><label for="account">Account</label><select id="account" name="account" class="field" required><option value="">Select account</option>{% for account in accounts %}<option>{{ account }}</option>{% endfor %}</select></div>
+    <div class="field-wrap"><label for="date">Date</label><input id="date" name="date" class="field" type="date" value="{{ today.isoformat() }}" required></div>
     <div class="field-wrap"><label for="note">Note (optional)</label><input id="note" name="note" class="field" placeholder="Add a note"></div>
+    <div class="field-wrap"><label><input type="checkbox" name="recurring"> Recurring transaction</label></div>
+    <div class="field-wrap"><label for="attachment">Receipt (optional)</label><input id="attachment" name="attachment" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp"></div>
     <div class="modal-actions"><button type="button" class="btn outline" data-close-modal>Cancel</button><button type="submit" class="btn">✓ &nbsp; Save</button></div>
   </form>
 </div>

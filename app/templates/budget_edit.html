@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% set active_page = "budgets" %}
+{% block title %}Edit Budget — FinTrack{% endblock %}
+{% block page_title %}Edit Budget{% endblock %}
+{% block page_path %}/budgets/{{ budget.id }}/edit{% endblock %}
+{% block content %}
+<section class="content"><div class="page-head"><div><h2>Edit budget</h2><p>Update your limit and warning settings</p></div><a class="btn outline" href="{{ url_for('budgets') }}">Back</a></div>
+<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="field-wrap"><label>Name</label><input class="field" name="name" value="{{ budget.name }}" required></div>
+  <div class="field-wrap"><label>Limit amount</label><input class="field" name="amount" type="number" min="0.01" step="0.01" value="{{ budget.amount }}" required></div>
+  <div class="field-wrap"><label>Category</label><input class="field" name="category" list="category-options" value="{{ budget.category }}" required><datalist id="category-options">{% for category in categories %}<option value="{{ category }}">{% endfor %}</datalist></div>
+  <div class="field-wrap"><label>Period</label><select class="field" name="period"><option value="weekly" {% if budget.period == "weekly" %}selected{% endif %}>Weekly</option><option value="monthly" {% if budget.period == "monthly" %}selected{% endif %}>Monthly</option><option value="yearly" {% if budget.period == "yearly" %}selected{% endif %}>Yearly</option></select></div>
+  <div class="field-wrap"><label>Warning threshold (%)</label><input class="field" name="warning_threshold" type="number" min="1" max="100" value="{{ budget.warning_threshold }}" required></div>
+  <label><input type="checkbox" name="rollover" {% if budget.rollover %}checked{% endif %}> Rollover unused amount</label>
+  <p><button class="btn" type="submit">Save changes</button></p>
+</form></section>
+{% endblock %}
