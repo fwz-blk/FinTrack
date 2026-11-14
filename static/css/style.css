@@ -297,6 +297,22 @@ a:hover { color: var(--teal-dark); }
   font-size: 11px;
   line-height: 1.2;
 }
+.chart-key {
+  display: flex;
+  gap: 16px;
+  margin: -6px 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.chart-key span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-key i {
+  width: 9px;
+  height: 9px;
+  display: inline-block;
+  border-radius: 50%;
+}
+.income-key { background: var(--green); }
+.expense-key { background: var(--red); }
 .topbar { justify-content: flex-start; border-bottom-color: rgb(255 255 255 / 18%); }
 .topbar h1 { letter-spacing: -.01em; }
 .topbar {
