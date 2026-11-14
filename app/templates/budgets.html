@@ -19,8 +19,8 @@
   </div>
   <div class="cards three">
     {% for budget in budgets %}
-    <article class="card budget-card">
-      <h3>{{ budget.name }} <a style="float:right" href="{{ url_for('edit_budget', budget_id=budget.id) }}">✎</a></h3>
+    <article class="card budget-card" data-api-resource="budgets" data-resource-id="{{ budget.id }}">
+      <h3 data-resource-name>{{ budget.name }} <a style="float:right" href="{{ url_for('edit_budget', budget_id=budget.id) }}">✎</a></h3>
       <p class="muted">{{ budget.category }} · {{ budget.period|capitalize }}{% if budget.rollover %} · rollover{% endif %}</p>
       <p class="muted">{{ budget.spent }}</p>
       <div class="progress {{ budget.tone }}"><span style="width:{{ [budget.percent, 100]|min }}%"></span></div>

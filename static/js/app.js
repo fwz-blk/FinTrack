@@ -49,6 +49,23 @@
       .catch((error) => console.error("Transactions API request failed", error));
   }
 
+  ["budgets", "goals", "bills"].forEach((resource) => {
+    const cards = document.querySelectorAll(`[data-api-resource="${resource}"]`);
+    if (!cards.length) return;
+    fetch(`/api/v1/${resource}`, { headers: { Accept: "application/json" } })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (!payload || !Array.isArray(payload.data)) return;
+        const byId = new Map(payload.data.map((item) => [String(item.id), item]));
+        cards.forEach((card) => {
+          const item = byId.get(card.dataset.resourceId);
+          const name = card.querySelector("[data-resource-name]");
+          if (item && name && item.name) name.firstChild.textContent = item.name;
+        });
+      })
+      .catch((error) => console.error(`${resource} API request failed`, error));
+  });
+
   function closeModal() {
     if (modal) modal.classList.add("hidden");
   }

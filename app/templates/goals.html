@@ -8,8 +8,8 @@
   <div id="goal-form" class="card" style="margin-bottom:18px;padding:18px"><form method="post" action="{{ url_for('goals') }}" class="filters"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="name" placeholder="Goal name" required><input name="target_amount" type="number" min="0.01" step="0.01" placeholder="Target amount" required><input name="saved_amount" type="number" min="0" step="0.01" placeholder="Already saved" value="0"><input name="deadline" type="date"><button class="btn" type="submit">Save goal</button></form></div>
   <div class="cards three">
     {% for goal in goals %}
-    <article class="card goal-card">
-      <div class="goal-title">{{ goal.name }}{% if goal.archived %} <span class="pill">Archived</span>{% endif %}<br><small class="muted">▣ &nbsp; {{ goal.deadline }}</small></div>
+    <article class="card goal-card" data-api-resource="goals" data-resource-id="{{ goal.id }}">
+      <div class="goal-title" data-resource-name>{{ goal.name }}{% if goal.archived %} <span class="pill">Archived</span>{% endif %}<br><small class="muted">▣ &nbsp; {{ goal.deadline }}</small></div>
       <div class="goal-ring {{ goal.tone }}">{{ goal.percent }}</div>
       <b>{{ goal.amount }}</b>
       <p class="muted">Required monthly: {{ goal.monthly_required }}</p>
