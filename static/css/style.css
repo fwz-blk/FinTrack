@@ -365,6 +365,17 @@ a:hover { color: var(--teal-dark); }
   border-color: var(--line);
   backdrop-filter: blur(16px);
 }
+.landing-nav .brand {
+  color: var(--navy);
+  padding: 0;
+  font-size: 16px;
+}
+.landing-nav .brand-mark {
+  color: var(--navy);
+  background: #e8edfb;
+  border-color: #d7def0;
+  box-shadow: 0 6px 16px rgb(61 82 160 / 14%);
+}
 .landing-nav nav a, .landing-nav nav a:first-child { color: var(--navy); }
 .landing-nav nav a:hover, .landing-nav nav a.active { color: var(--blue); }
 .hero, .features-hero, .about-hero { background: transparent; }
