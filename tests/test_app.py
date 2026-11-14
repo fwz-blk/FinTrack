@@ -1,7 +1,7 @@
 import io
 
 from app.extensions import db
-from app.models import Budget, Transaction, User
+from app.models import Budget, Goal, GoalContribution, Transaction, User
 
 
 def register_user(client, name="Test User", email="test@example.com"):
@@ -174,3 +174,47 @@ def test_budget_spending_is_calculated_and_budget_crud_is_scoped(client, app):
     assert response.status_code == 302
     with app.app_context():
         assert db.session.get(Budget, budget_id) is None
+
+
+def test_goal_progress_contributions_history_and_crud(client, app):
+    register_user(client)
+    response = client.post(
+        "/goals",
+        data={
+            "name": "Emergency fund",
+            "target_amount": "100",
+            "saved_amount": "20",
+            "deadline": "2027-11-14",
+        },
+    )
+    assert response.status_code == 302
+    with app.app_context():
+        goal_id = db.session.execute(db.select(Goal)).scalar_one().id
+    response = client.post(
+        f"/goals/{goal_id}/contributions",
+        data={"amount": "30", "date": "2026-11-14", "note": "First deposit"},
+    )
+    assert response.status_code == 302
+    response = client.get("/goals")
+    assert b"$50.00 / $100.00" in response.data
+    assert b"50%" in response.data
+    assert b"First deposit" in response.data
+    with app.app_context():
+        assert db.session.execute(db.select(GoalContribution)).scalar_one()
+    response = client.post(
+        f"/goals/{goal_id}/edit",
+        data={
+            "name": "Updated fund",
+            "target_amount": "200",
+            "saved_amount": "20",
+            "deadline": "2028-11-14",
+        },
+    )
+    assert response.status_code == 302
+    response = client.post(f"/goals/{goal_id}/archive")
+    assert response.status_code == 302
+    assert b"Archived" in client.get("/goals?show_archived=1").data
+    response = client.post(f"/goals/{goal_id}/delete")
+    assert response.status_code == 302
+    with app.app_context():
+        assert db.session.get(Goal, goal_id) is None

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% set active_page = "goals" %}
+{% block title %}Edit Goal — FinTrack{% endblock %}
+{% block page_title %}Edit Goal{% endblock %}
+{% block page_path %}/goals/{{ goal.id }}/edit{% endblock %}
+{% block content %}
+<section class="content"><div class="page-head"><div><h2>Edit goal</h2><p>Update your target and deadline</p></div><a class="btn outline" href="{{ url_for('goals') }}">Back</a></div>
+<form class="card" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><div class="field-wrap"><label>Name</label><input class="field" name="name" value="{{ goal.name }}" required></div><div class="field-wrap"><label>Target amount</label><input class="field" name="target_amount" type="number" min="0.01" step="0.01" value="{{ goal.target_amount }}" required></div><div class="field-wrap"><label>Initial saved amount</label><input class="field" name="saved_amount" type="number" min="0" step="0.01" value="{{ goal.saved_amount }}" required></div><div class="field-wrap"><label>Target date</label><input class="field" name="deadline" type="date" value="{{ goal.deadline.isoformat() if goal.deadline else '' }}"></div><button class="btn" type="submit">Save changes</button></form></section>
+{% endblock %}

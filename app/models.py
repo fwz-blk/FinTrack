@@ -27,6 +27,9 @@ class User(db.Model):
     goals = db.relationship(
         "Goal", back_populates="user", cascade="all, delete-orphan"
     )
+    goal_contributions = db.relationship(
+        "GoalContribution", back_populates="user", cascade="all, delete-orphan"
+    )
     categories = db.relationship(
         "Category", back_populates="user", cascade="all, delete-orphan"
     )
@@ -116,5 +119,25 @@ class Goal(db.Model):
     target_amount = db.Column(db.Numeric(10, 2), nullable=False)
     saved_amount = db.Column(db.Numeric(10, 2), nullable=False, default=Decimal("0.00"))
     deadline = db.Column(db.Date)
+    archived = db.Column(db.Boolean, nullable=False, default=False)
 
     user = db.relationship("User", back_populates="goals")
+    contributions = db.relationship(
+        "GoalContribution", back_populates="goal", cascade="all, delete-orphan"
+    )
+
+
+class GoalContribution(db.Model):
+    __tablename__ = "goal_contributions"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    goal_id = db.Column(db.Integer, db.ForeignKey("goals.id"), nullable=False)
+    transaction_id = db.Column(db.Integer, db.ForeignKey("transactions.id"))
+    amount = db.Column(db.Numeric(10, 2), nullable=False)
+    date = db.Column(db.Date, nullable=False, default=date.today)
+    note = db.Column(db.String(255))
+
+    user = db.relationship("User", back_populates="goal_contributions")
+    goal = db.relationship("Goal", back_populates="contributions")
+    transaction = db.relationship("Transaction")

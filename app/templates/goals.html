@@ -1,6 +1,25 @@
 {% extends "base.html" %}
 {% set active_page = "goals" %}
 {% block title %}Savings Goals — FinTrack{% endblock %}{% block page_title %}Savings Goals{% endblock %}{% block page_path %}/goals{% endblock %}
-{% block content %}<section class="content"><div class="page-head"><div><h2>Savings Goals</h2><p>Set targets and build your future</p></div><a class="btn" href="#goal-form">＋ &nbsp; New Goal</a></div>{% with messages = get_flashed_messages() %}{% if messages %}<p class="form-message">{{ messages[0] }}</p>{% endif %}{% endwith %}
-<div id="goal-form" class="card" style="margin-bottom: 18px; padding: 18px;"><form method="post" action="{{ url_for('goals') }}" class="filters"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="text" name="name" placeholder="Goal name" required><input type="number" name="target_amount" min="0.01" step="0.01" placeholder="Target amount" required><input type="number" name="saved_amount" min="0" step="0.01" placeholder="Saved so far" value="0"><input type="date" name="deadline"><button class="btn" type="submit">Save goal</button></form></div>
-<div class="cards three">{% for goal in goals %}<article class="card goal-card"><div class="goal-title">{{ goal.name }}<br><small class="muted">▣ &nbsp; {{ goal.deadline }}</small></div><div class="goal-ring {{ goal.tone }}">{{ goal.percent }}</div><b>{{ goal.amount }}</b><button class="btn block" style="margin-top:22px">{% if goal.complete %}✓ Goal reached{% else %}⊙ &nbsp; Add Money{% endif %}</button></article>{% else %}<article class="card"><p class="muted">No goals yet. Create your first savings goal above.</p></article>{% endfor %}</div></section>{% endblock %}
+{% block content %}
+<section class="content">
+  <div class="page-head"><div><h2>Savings Goals</h2><p>Set targets and build your future</p></div><div><a class="btn outline" href="{{ url_for('goals', show_archived='1' if not showing_archived else None) }}">{% if showing_archived %}Active goals{% else %}Show archived{% endif %}</a> <a class="btn" href="#goal-form">＋ &nbsp; New Goal</a></div></div>
+  {% with messages = get_flashed_messages() %}{% if messages %}<p class="form-message">{{ messages[0] }}</p>{% endif %}{% endwith %}
+  <div id="goal-form" class="card" style="margin-bottom:18px;padding:18px"><form method="post" action="{{ url_for('goals') }}" class="filters"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="name" placeholder="Goal name" required><input name="target_amount" type="number" min="0.01" step="0.01" placeholder="Target amount" required><input name="saved_amount" type="number" min="0" step="0.01" placeholder="Already saved" value="0"><input name="deadline" type="date"><button class="btn" type="submit">Save goal</button></form></div>
+  <div class="cards three">
+    {% for goal in goals %}
+    <article class="card goal-card">
+      <div class="goal-title">{{ goal.name }}{% if goal.archived %} <span class="pill">Archived</span>{% endif %}<br><small class="muted">▣ &nbsp; {{ goal.deadline }}</small></div>
+      <div class="goal-ring {{ goal.tone }}">{{ goal.percent }}</div>
+      <b>{{ goal.amount }}</b>
+      <p class="muted">Required monthly: {{ goal.monthly_required }}</p>
+      {% if goal.complete %}<p style="color:var(--green)"><b>✓ Goal reached</b></p>{% else %}
+      <form method="post" action="{{ url_for('add_goal_contribution', goal_id=goal.id) }}" class="field-wrap"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="amount" type="number" min="0.01" step="0.01" placeholder="Contribution" required><input name="date" type="date" value="{{ today.isoformat() }}" required><input name="note" placeholder="Note (optional)"><button class="btn block" type="submit">⊙ &nbsp; Add Money</button></form>
+      {% endif %}
+      {% if goal.history %}<details><summary>Progress history</summary>{% for item in goal.history %}<p class="muted">{{ item.date }} · ${{ '%.2f'|format(item.amount) }}{% if item.note %} · {{ item.note }}{% endif %}</p>{% endfor %}</details>{% endif %}
+      <p><a class="btn outline" href="{{ url_for('edit_goal', goal_id=goal.id) }}">Edit</a> <form style="display:inline" method="post" action="{{ url_for('archive_goal', goal_id=goal.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn outline" type="submit">{% if goal.archived %}Restore{% else %}Archive{% endif %}</button></form> <form style="display:inline" method="post" action="{{ url_for('delete_goal', goal_id=goal.id) }}" onsubmit="return confirm('Delete this goal and its history?')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn danger" type="submit">Delete</button></form></p>
+    </article>
+    {% else %}<article class="card"><p class="muted">No goals yet. Create your first savings goal above.</p></article>{% endfor %}
+  </div>
+</section>
+{% endblock %}

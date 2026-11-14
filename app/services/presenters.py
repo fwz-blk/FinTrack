@@ -24,15 +24,46 @@ def budget_row(budget, spent=None, limit=None):
     }
 
 
+from datetime import date
+from decimal import Decimal
+
+
 def goal_row(goal):
     target = float(goal.target_amount)
-    saved = float(goal.saved_amount)
+    contribution_total = sum(
+        (contribution.amount for contribution in goal.contributions),
+        Decimal("0.00"),
+    )
+    saved = float(goal.saved_amount + contribution_total)
     percent = 0 if target <= 0 else min(100, int((saved / target) * 100))
+    remaining = max(Decimal("0.00"), goal.target_amount - Decimal(str(saved)))
+    if goal.deadline and remaining > 0:
+        months = max(
+            1,
+            (goal.deadline.year - date.today().year) * 12
+            + goal.deadline.month
+            - date.today().month
+            + (1 if goal.deadline.day >= date.today().day else 0),
+        )
+        monthly_required = remaining / months
+    else:
+        monthly_required = Decimal("0.00")
     return {
+        "id": goal.id,
         "name": goal.name,
         "deadline": goal.deadline.strftime("%b %d, %Y") if goal.deadline else "No deadline",
         "percent": f"{percent}%",
         "amount": f"${saved:,.2f} / ${target:,.2f}",
+        "monthly_required": f"${monthly_required:,.2f}",
         "tone": "green" if percent >= 100 else "blue" if percent >= 50 else "",
         "complete": percent >= 100,
+        "archived": goal.archived,
+        "history": [
+            {
+                "amount": float(contribution.amount),
+                "date": contribution.date.strftime("%d %b %Y"),
+                "note": contribution.note,
+            }
+            for contribution in sorted(goal.contributions, key=lambda item: item.date, reverse=True)
+        ],
     }
