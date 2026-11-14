@@ -151,3 +151,10 @@ Use text labels such as `On track`, `Near limit`, `Over budget`, `Upcoming`, `Pa
 ## Implementation rule
 
 Prefer existing vanilla CSS variables and components over one-off inline styles. Add a reusable class when a visual pattern appears twice. Bootstrap may provide behavior or responsive utilities, but the FinTrack palette and component classes remain the source of truth.
+
+### Bootstrap usage
+
+- Load Bootstrap before `static/css/style.css` so FinTrack theme rules win when selectors overlap.
+- Use Bootstrap utilities such as `d-flex`, `flex-wrap`, `gap-*`, `row`, `col-*`, and `table-responsive` for layout and responsive behavior.
+- Keep FinTrack classes (`card`, `btn`, `field`, `progress`, navigation, and status colors) for visual styling.
+- Do not replace the application shell with Bootstrap components or add Bootstrap JavaScript unless a feature specifically needs it.
